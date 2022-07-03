@@ -1,0 +1,30 @@
+{
+    "generators": [
+        {
+            "name": "dart",
+            "provider": {
+                "fromEnvVar": null,
+                "value": "dart test.dart"
+            },
+            "output": {
+                "fromEnvVar": null,
+                "value": "../lib"
+            },
+            "config": {},
+            "binaryTargets": [],
+            "previewFeatures": []
+        }
+    ],
+    "datasources": [
+        {
+            "name": "db",
+            "provider": "postgresql",
+            "activeProvider": "postgresql",
+            "url": {
+                "fromEnvVar": null,
+                "value": "postgres://postgres:postgrespw@localhost:55000"
+            }
+        }
+    ],
+    "warnings": []
+}

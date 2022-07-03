@@ -1,0 +1,29 @@
+generator dart {
+  provider = "dart test.dart"
+  output   = "../lib"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgres://postgres:postgrespw@localhost:55001"
+  // provider = "sqlite"
+  // url      = "file:./dev.db"
+}
+
+
+model User {
+  id            Int    @id @default(autoincrement())
+  name          String
+  posts         Post[]
+  createdAt     DateTime @default(now())
+}
+
+
+model Post {
+  id            Int     @id @default(autoincrement())
+  title         String
+  published     Boolean @default(value: true)
+  authorId      Int
+  author        User    @relation(fields: [authorId], references: [id])
+}
+
