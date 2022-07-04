@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:backend/src/modules/auth/presenter/guards/auth_guard.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart' as path;
@@ -13,7 +14,7 @@ import 'package:uuid/uuid.dart';
 class UploadResource extends Resource {
   @override
   List<Route> get routes => [
-        Route.post('/upload', _upload),
+        Route.post('/upload', _upload, middlewares: [AuthGuard()]),
         Route.get('/download/:image', _download),
       ];
 

@@ -17,7 +17,9 @@ class DotEnvService {
       final envText = await fileEnv.readAsString();
       final localMap = <String, String>{};
       for (var line in envText.split('\n')) {
+        line = line.replaceFirst(RegExp(r'\#.*'), '');
         line = line.trim();
+        if (line.isEmpty) continue;
         final key = line.split('=').first;
 
         line = line.replaceFirst('$key=', '').replaceAll('"', '').replaceAll("'", '');
@@ -31,4 +33,8 @@ class DotEnvService {
   }
 
   String? operator [](String key) => _map[key];
+
+  bool containKey(String key) {
+    return _map.containsKey(key);
+  }
 }

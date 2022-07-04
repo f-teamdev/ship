@@ -3,6 +3,7 @@
 .packages
 node_modules/
 .DS_Store
+uploads/
 
 # Conventional directory for build output.
 build/

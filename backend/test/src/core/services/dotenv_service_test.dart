@@ -9,5 +9,6 @@ void main() {
     expect(dotEnv['TEST'], 'test');
     expect(dotEnv['NUMERIC'], '1');
     expect(dotEnv['SPACE'], 'test space');
+    expect(dotEnv['COMMENT'], null);
   });
 }
