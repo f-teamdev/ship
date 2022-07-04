@@ -9,11 +9,26 @@ servers:
  
 
 tags:
+- name: "auth"
+  description: "Autorização de usuário"
 - name: "file"
   description: "Upload e Download de arquivos"
 - name: "user"
   description: "Access to User"
 paths:
+  /auth/login:
+    get:
+      security:
+        - basicAuth: [] 
+      tags:
+        - "auth"
+      responses:
+        '200':   
+          description: Realizar login
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tokenization"
   /file/upload:
     post:
       tags:
@@ -77,9 +92,21 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    basicAuth:   
+      type: http
+      scheme: basic
   schemas:
     FileReturn:
       type: "object"
       properties:
         image:
+          type: string
+    Tokenization:
+      type: "object"
+      properties:
+        expiresIn:
+          type: integer
+        accessToken:
+          type: string
+        refreshToken:
           type: string
