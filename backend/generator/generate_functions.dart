@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'dmmf.dart';
@@ -21,7 +20,6 @@ FutureOr<JsonRPCResponse> getManifest(JsonRPCRequest request) {
 }
 
 FutureOr<JsonRPCResponse> generate(JsonRPCRequest request) async {
-  await File('dmmf.json').writeAsString(jsonEncode(request.params));
   final options = GenerateOptions.fromJson(request.params);
   var output = options.generator.output.fromEnvVar ?? options.generator.output.value ?? './';
   final dir = Directory('$output${Platform.pathSeparator}prisma');
@@ -87,7 +85,8 @@ String _findManyGenerator(ModelMapping mapping, Schema schema) {
   mapbody.write(mapFields(model));
   mapbody.writeln(';');
 
-  mapbody.writeln("""
+  mapbody.writeln(
+      """
   void _addField(Map<String, List> field) {
     for (var key in field.keys) {
       queryBuffer.writeln(key);

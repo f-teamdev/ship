@@ -4,10 +4,8 @@ info:
   version: "1.0.0"
   title: "Swagger Ship"
 servers:
-  - url: http://localhost:4000/
+  - url: http://localhost:4000
     description: Developer server
- 
-
 tags:
 - name: "auth"
   description: "Autorização de usuário"
@@ -29,6 +27,40 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tokenization"
+  /auth/check_token:
+    get:
+      security:
+        - bearerAuth: [] 
+      tags:
+        - "auth"
+      responses:
+        '200':   
+          description: Checa autorização
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  status:
+                    type: string
+  /auth/refresh_token/{token}:
+    get:
+      tags:
+        - "auth"
+      parameters:
+        - in: path
+          name: token
+          schema:
+            type: string
+          required: true
+          description: refreshToken
+      responses:
+        '200':   
+          description: Atualiza token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tokenization"          
   /file/upload:
     post:
       tags:
@@ -83,9 +115,6 @@ paths:
               schema:
                 type: string
                 format: binary
-
-
-
 components:
   securitySchemes:
     bearerAuth:
