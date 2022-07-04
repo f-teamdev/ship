@@ -7,3 +7,4 @@ uploads/
 
 # Conventional directory for build output.
 build/
+.env
