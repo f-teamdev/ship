@@ -18,7 +18,7 @@ class AppModule extends Module {
   @override
   List<Bind> get binds => [
         Bind.instance<DotEnvService>(_dotEnvService),
-        Bind.singleton((i) => RedisService()),
+        Bind.singleton((i) => RedisService(i())),
         Bind.factory((i) => TokenManager()),
         Bind.singleton((i) => PostgresConnect(i())),
       ];

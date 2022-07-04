@@ -1,11 +1,11 @@
 import 'dart:async';
 
+import 'package:backend/backend.dart';
 import 'package:redis_dart/redis_dart.dart';
 import 'package:shelf_modular/shelf_modular.dart';
 
 abstract class IRedisService implements Disposable {
-  Future<RedisReply> setMap(
-      String key, Map<String, dynamic> map, Duration expiresIn);
+  Future<RedisReply> setMap(String key, Map<String, dynamic> map, Duration expiresIn);
 
   Future<Map<String, dynamic>> getMap(String key);
   Future<void> delete(String key);
@@ -13,14 +13,19 @@ abstract class IRedisService implements Disposable {
 
 class RedisService implements IRedisService {
   final _completer = Completer<RedisClient>();
+  final DotEnvService env;
 
-  RedisService() {
-    _completer.complete(RedisClient.connect('localhost'));
+  RedisService(this.env) {
+    _completer.complete(
+      RedisClient.connect(
+        env['REDIS_HOST'] ?? 'localhost',
+        int.tryParse(env['REDIS_PORT'] ?? '') ?? 6379,
+      ),
+    );
   }
 
   @override
-  Future<RedisReply> setMap(
-      String key, Map<String, dynamic> map, Duration expiresIn) async {
+  Future<RedisReply> setMap(String key, Map<String, dynamic> map, Duration expiresIn) async {
     final redis = await _completer.future;
     final result = await redis.setMap(key, map);
     await redis.expireAt(key, DateTime.now().add(expiresIn));

@@ -4,15 +4,17 @@ info:
   version: "1.0.0"
   title: "Swagger Ship"
 servers:
-  - url: http://localhost:4000
+  - url: https://dev.shipstore.info
     description: Developer server
+  - url: http://localhost:4000
+    description: Local server
 tags:
 - name: "auth"
   description: "Autorização de usuário"
-- name: "file"
-  description: "Upload e Download de arquivos"
 - name: "user"
   description: "Access to User"
+- name: "file"
+  description: "Upload e Download de arquivos"
 paths:
   /auth/login:
     get:
@@ -22,7 +24,7 @@ paths:
         - "auth"
       responses:
         '200':   
-          description: Realizar login
+          description: Realizado login com sucesso
           content:
             application/json:
               schema:
