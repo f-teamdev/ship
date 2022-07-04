@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   description: "API sistema de gerenciamento de desenvolvedores da FTeam"
-  version: "1.0.1"
+  version: "1.0.4"
   title: "Swagger Ship"
 servers:
   - url: https://dev.shipstore.info
