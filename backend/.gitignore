@@ -2,6 +2,7 @@
 .dart_tool/
 .packages
 node_modules/
+.DS_Store
 
 # Conventional directory for build output.
 build/
