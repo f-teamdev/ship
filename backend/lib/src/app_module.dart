@@ -7,6 +7,7 @@ import 'core/services/postgres_connect.dart';
 import 'core/token/token_manager.dart';
 import 'modules/auth/auth_module.dart';
 import 'modules/file/resources/uplodad_resource.dart';
+import 'modules/swagger/swagger_handler.dart';
 
 class AppModule extends Module {
   final DotEnvService _dotEnvService;
@@ -26,5 +27,6 @@ class AppModule extends Module {
         Route.get('/', (Request request) => Response.ok('FTeam Backend v0.0.1')),
         Route.module('/auth', module: AuthModule()),
         Route.resource('/file', resource: UploadResource()),
+        Route.get('/documentation', SwaggerHandler()),
       ];
 }

@@ -344,6 +344,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
+  shelf_swagger_ui:
+    dependency: "direct main"
+    description:
+      name: shelf_swagger_ui
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
   shelf_web_socket:
     dependency: transitive
     description:
@@ -492,4 +499,4 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.17.3 <3.0.0"
+  dart: ">=2.17.5 <3.0.0"
