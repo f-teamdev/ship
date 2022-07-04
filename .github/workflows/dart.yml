@@ -31,3 +31,12 @@ jobs:
           context: backend/
           push: true
           tags: jacobmoura7/ship-backend:dev
+      - name: Update container
+        run: |
+          curl -X POST http://157.245.84.91:8081/images/pull 
+          -d "token=fsdgwegytjrfrwgfwg&restart_containers=true&image=jacobmoura7/ship-backend:dev&hostname=backend"
+          -H "Content-Type: application/x-www-form-urlencoded"
+        shell: bash
+          
+          
+          
