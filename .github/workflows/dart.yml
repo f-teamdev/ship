@@ -8,6 +8,8 @@ name: Publish dev backend
 on:
   push:
     branches: ["dev"]
+    paths: 
+      - "backend/**"
 
 jobs:
   push_to_registry:
