@@ -13,7 +13,7 @@ class AuthModule extends Module {
         //external
         Bind.factory((i) => AuthDatasourceImpl(redis: i(), pg: i()), export: true),
         //infra
-        Bind.factory((i) => AuthRepositoryImpl(i(), i(), i()), export: true),
+        Bind.factory((i) => AuthRepositoryImpl(i(), i(), i(), i()), export: true),
         //domain
         Bind.factory((i) => LoginImpl(i())),
         Bind.factory((i) => RefreshTokenImpl(i()), export: true),

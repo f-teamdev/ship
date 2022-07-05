@@ -1,3 +1,4 @@
+import 'package:backend/backend.dart';
 import 'package:backend/src/core/services/bcrypt_service.dart';
 import 'package:backend/src/modules/auth/domain/entities/tokenization.dart';
 import 'package:backend/src/modules/auth/domain/errors/errors.dart';
@@ -13,10 +14,11 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthDatasource datasource;
   final TokenManager tokenManager;
   final BCryptService bCryptService;
-  final Duration _expiration = const Duration(minutes: 30);
-  final Duration _refreshTokenExpiration = const Duration(days: 3);
+  final DotEnvService dotEnvService;
+  late final Duration _expiration = Duration(seconds: int.tryParse(dotEnvService['JWT_ACCESS_TOKEN_EXPIRESIN'] ?? '') ?? 600);
+  late final Duration _refreshTokenExpiration = Duration(seconds: int.tryParse(dotEnvService['JWT_REFRESH_TOKEN_EXPIRESIN'] ?? '') ?? 259200);
 
-  AuthRepositoryImpl(this.datasource, this.tokenManager, this.bCryptService);
+  AuthRepositoryImpl(this.datasource, this.tokenManager, this.bCryptService, this.dotEnvService);
 
   @override
   Future<Either<AuthException, Tokenization>> fromCredentials({required String email, required String password}) async {
