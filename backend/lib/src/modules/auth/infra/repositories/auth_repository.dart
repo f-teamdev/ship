@@ -3,6 +3,7 @@ import 'package:backend/src/core/services/bcrypt_service.dart';
 import 'package:backend/src/modules/auth/domain/entities/tokenization.dart';
 import 'package:backend/src/modules/auth/domain/errors/errors.dart';
 import 'package:backend/src/modules/auth/domain/repositories/auth_repository.dart';
+import 'package:backend/src/modules/auth/domain/usecases/update_password.dart';
 import 'package:backend/src/modules/auth/external/errors/errors.dart';
 import 'package:backend/src/modules/auth/infra/datasources/auth_datasource.dart';
 import 'package:fpdart/fpdart.dart';
@@ -78,6 +79,27 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final claims = await tokenManager.validateToken(accessToken);
       return Right(claims);
+    } on AuthException catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  Future<Either<AuthException, Unit>> updatePassword(UpdatePasswordParams parameters) async {
+    try {
+      final userMap = await datasource.fromId(
+        id: parameters.id,
+      );
+
+      if (!bCryptService.checkPassword(parameters.password, userMap['password'])) {
+        return Left(NotAuthorized('Password error'));
+      }
+
+      await datasource.updatePassword(
+        id: parameters.id,
+        newPassword: bCryptService.generatePassword(parameters.newPassword),
+      );
+      return Right(unit);
     } on AuthException catch (e) {
       return Left(e);
     }

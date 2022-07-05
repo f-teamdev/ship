@@ -1,26 +1,27 @@
-import 'package:backend/src/modules/user/domain/errors/errors.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:string_validator/string_validator.dart' as validator;
 
-import '../repositories/user_repository.dart';
+import '../errors/errors.dart';
+import '../repositories/auth_repository.dart';
 
 abstract class UpdatePassword {
-  Future<Either<UserException, Unit>> call(UpdatePasswordParams params);
+  Future<Either<AuthException, Unit>> call(UpdatePasswordParams params);
 }
 
 class UpdatePasswordImpl implements UpdatePassword {
-  final UserRepository repository;
+  final AuthRepository repository;
 
   UpdatePasswordImpl(this.repository);
 
   @override
-  Future<Either<UserException, Unit>> call(UpdatePasswordParams params) async {
+  Future<Either<AuthException, Unit>> call(UpdatePasswordParams params) async {
     if (params.password == params.newPassword) {
       return left(PasswordValidate('New password must be diff'));
     }
 
-    if (!validator.matches(params.password, r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})')) {
-      return left(UserCreationValidate(r'''Password not strength:
+    if (!validator.matches(params.newPassword, r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})')) {
+      return left(PasswordValidate(r'''Password not strength:
+      - Minimal 6 characters.
       - The string must contain at least 1 lowercase alphabetical character.
       - The string must contain at least 1 uppercase alphabetical character.
       - The string must contain at least 1 numeric character.

@@ -27,6 +27,22 @@ class AuthDatasourceImpl implements AuthDatasource {
   }
 
   @override
+  Future fromId({required int id}) async {
+    final connection = await pg.connection;
+    final results = await connection.mappedResultsQuery(
+      'SELECT id, password, role FROM public."User" WHERE id=@id AND active=true',
+      substitutionValues: {'id': id},
+    );
+    final userList = results.where((element) => element.containsKey('User')).map((e) => e['User']!);
+
+    if (userList.isEmpty) {
+      throw NotAuthorized('Usuário não cadastrado');
+    }
+
+    return userList.first;
+  }
+
+  @override
   Future<Map<String, dynamic>> removeToken({required String token}) async {
     final userIdMap = await redis.getMap(token);
     if (userIdMap.isEmpty) {
@@ -48,5 +64,24 @@ class AuthDatasourceImpl implements AuthDatasource {
       value,
       expiresIn,
     );
+  }
+
+  @override
+  Future updatePassword({required int id, required String newPassword}) async {
+    final connection = await pg.connection;
+
+    final results = await connection.mappedResultsQuery(
+      'UPDATE public."User"SET password=@password WHERE id=@id RETURNING id;',
+      substitutionValues: {
+        'id': id,
+        'password': newPassword,
+      },
+    );
+
+    final userList = results.where((element) => element.containsKey('User')).map((e) => e['User']!);
+
+    if (userList.isEmpty) {
+      throw PasswordNotUpdated('password not found');
+    }
   }
 }

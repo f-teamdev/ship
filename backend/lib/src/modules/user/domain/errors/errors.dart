@@ -25,7 +25,3 @@ class GetUserValidate extends UserException {
 class UserNotFound extends UserException {
   UserNotFound(super.message);
 }
-
-class PasswordValidate extends UserException {
-  PasswordValidate(super.message);
-}

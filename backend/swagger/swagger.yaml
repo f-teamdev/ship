@@ -45,6 +45,33 @@ paths:
                 properties:
                   status:
                     type: string
+  /auth/update_password:
+    put:
+      security:
+        - bearerAuth: [] 
+      tags:
+        - "auth"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                password:
+                  type: string
+                newPassword:
+                  type: string
+      responses:
+        '200':   
+          description: Checa autorização
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: string
   /auth/refresh_token/{token}:
     get:
       tags:

@@ -1,4 +1,3 @@
-import 'package:backend/src/modules/user/domain/entities/user_entity.dart';
 import 'package:backend/src/modules/user/domain/errors/errors.dart';
 
 import '../../../../core/services/postgres_connect.dart';
@@ -23,15 +22,19 @@ class UserDatasourceImpl implements UserDatasource {
   }
 
   @override
-  Future updateUser(UserEntity userMap) {
-    // TODO: implement updateUser
-    throw UnimplementedError();
-  }
+  Future updateUser(Map<String, dynamic> userMap) async {
+    final connection = await pg.connection;
 
-  @override
-  Future updatePassword({required int id, required String newPassword}) {
-    // TODO: implement updatePassword
-    throw UnimplementedError();
+    final columns = userMap.keys.where((e) => e != 'id').map((e) => '$e=@$e').toList();
+
+    final results = await connection.mappedResultsQuery(
+      'UPDATE public."User"SET ${columns.join(',')} WHERE id=@id RETURNING id, email, name, role, "imageUrl", active;',
+      substitutionValues: userMap,
+    );
+
+    final userList = results.where((element) => element.containsKey('User')).map((e) => e['User']!);
+    final userReturning = userList.first;
+    return userReturning;
   }
 
   @override

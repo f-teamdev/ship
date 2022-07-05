@@ -9,3 +9,7 @@ abstract class AuthException implements Exception {
     return '$runtimeType: $message\n${stackTrace ?? ''}';
   }
 }
+
+class PasswordValidate extends AuthException {
+  PasswordValidate(super.message);
+}

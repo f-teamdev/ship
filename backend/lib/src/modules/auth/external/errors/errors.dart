@@ -4,6 +4,10 @@ class NotAuthorized extends AuthException {
   const NotAuthorized(String message, [StackTrace? stackTrace]) : super(message, stackTrace);
 }
 
+class PasswordNotUpdated extends AuthException {
+  const PasswordNotUpdated(String message, [StackTrace? stackTrace]) : super(message, stackTrace);
+}
+
 class JWTViolations extends AuthException {
   final List<String> violations;
   const JWTViolations(
