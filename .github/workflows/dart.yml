@@ -40,7 +40,7 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'The project **ship-backend:dev** has been deployed.'
+          args: '@Ship The project **ship-backend:dev** has been deployed.'
           
           
           
