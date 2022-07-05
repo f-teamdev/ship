@@ -8,4 +8,6 @@ abstract class UserRepository {
   Future<Either<UserException, UserEntity>> createUser(UserEntity parameters);
   Future<Either<UserException, UserEntity>> updateUser(UserEntity parameters);
   Future<Either<UserException, Unit>> updatePassword(UpdatePasswordParams parameters);
+  Future<Either<UserException, UserEntity>> getUserById(int id);
+  Future<Either<UserException, List<UserEntity>>> getUsers();
 }

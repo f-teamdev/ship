@@ -18,6 +18,10 @@ import '../../domain/usecases/check_token.dart';
 // }
 
 class AuthGuard extends ModularMiddleware {
+  final List<String> allowedRoles;
+
+  AuthGuard([this.allowedRoles = const []]);
+
   @override
   Handler call(Handler handler, [ModularRoute? route]) {
     return (request) async {
@@ -29,7 +33,13 @@ class AuthGuard extends ModularMiddleware {
       final checkToken = await Modular.get<CheckToken>()(accessToken: accessToken);
       return checkToken.fold(
         (l) => Response.forbidden(jsonEncode({'error': l.toString()})),
-        (r) => handler(request),
+        (claims) {
+          final role = claims['role'];
+          if (allowedRoles.isEmpty || allowedRoles.contains(role)) {
+            return handler(request);
+          }
+          return Response.forbidden(jsonEncode({'error': 'Role $role not allowed.'}));
+        },
       );
     };
   }

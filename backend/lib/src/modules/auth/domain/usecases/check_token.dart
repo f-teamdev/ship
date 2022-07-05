@@ -3,7 +3,7 @@ import 'package:backend/src/modules/auth/domain/repositories/auth_repository.dar
 import 'package:fpdart/fpdart.dart';
 
 abstract class CheckToken {
-  Future<Either<AuthException, Unit>> call({required String accessToken});
+  Future<Either<AuthException, Map<String, dynamic>>> call({required String accessToken});
 }
 
 class CheckTokenImpl implements CheckToken {
@@ -12,7 +12,7 @@ class CheckTokenImpl implements CheckToken {
   CheckTokenImpl(this.repository);
 
   @override
-  Future<Either<AuthException, Unit>> call({required String accessToken}) async {
+  Future<Either<AuthException, Map<String, dynamic>>> call({required String accessToken}) async {
     return await repository.checkToken(accessToken: accessToken);
   }
 }

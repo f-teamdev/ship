@@ -28,7 +28,7 @@ class TokenManager {
     return jws.toCompactSerialization();
   }
 
-  Future<void> validateToken(String encoded) async {
+  Future<Map<String, dynamic>> validateToken(String encoded) async {
     // create key store to verify the signature
     var keyStore = JsonWebKeyStore()..addKey(key);
 
@@ -41,5 +41,7 @@ class TokenManager {
       final list = violations.map((e) => e.toString()).toList();
       throw JWTViolations('One or more violations in current access token', list);
     }
+
+    return jwt.claims.toJson();
   }
 }

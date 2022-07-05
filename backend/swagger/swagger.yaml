@@ -117,6 +117,107 @@ paths:
               schema:
                 type: string
                 format: binary
+
+  /user/{id}:
+    get:
+      tags:
+      - "user"
+      security:
+        - bearerAuth: [] 
+      summary: "get user by id"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The user ID
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserEntity"
+        "403":
+          description: "Forbidden operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEntity"
+        "404":
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEntity"
+        "500":
+          description: "Internal error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEntity"
+  /user:
+    get:
+      tags:
+      - "user"
+      security:
+        - bearerAuth: [] 
+      summary: "get all user"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserEntity"
+        "403":
+          description: "Forbidden operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEntity"
+        "500":
+          description: "Internal error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEntity"
+    post:
+      tags:
+      - "user"
+      security:
+        - bearerAuth: [] 
+      summary: "Create a use"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserEntity"
+              
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserEntity"
+        "403":
+          description: "Forbidden operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEntity"
+        "500":
+          description: "Internal error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEntity"
 components:
   securitySchemes:
     bearerAuth:
@@ -127,6 +228,11 @@ components:
       type: http
       scheme: basic
   schemas:
+    ErrorEntity:
+      type: "object"
+      properties:
+        error:
+          type: string
     FileReturn:
       type: "object"
       properties:
@@ -141,3 +247,25 @@ components:
           type: string
         refreshToken:
           type: string
+    UserEntity:
+      type: "object"
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        imageUrl:
+          type: string
+        active:
+          type: boolean
+        role:
+          type: string
+          default: "user"
+          enum:
+            - "dev"
+            - "manager"
+            - "admin"
+
+

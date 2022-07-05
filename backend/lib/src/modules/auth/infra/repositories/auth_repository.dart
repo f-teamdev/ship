@@ -1,9 +1,9 @@
+import 'package:backend/src/core/services/bcrypt_service.dart';
 import 'package:backend/src/modules/auth/domain/entities/tokenization.dart';
 import 'package:backend/src/modules/auth/domain/errors/errors.dart';
 import 'package:backend/src/modules/auth/domain/repositories/auth_repository.dart';
 import 'package:backend/src/modules/auth/external/errors/errors.dart';
 import 'package:backend/src/modules/auth/infra/datasources/auth_datasource.dart';
-import 'package:bcrypt/bcrypt.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:uuid/uuid.dart';
 
@@ -12,17 +12,18 @@ import '../../../../core/token/token_manager.dart';
 class AuthRepositoryImpl implements AuthRepository {
   final AuthDatasource datasource;
   final TokenManager tokenManager;
-  final Duration _expiration = const Duration(minutes: 3);
+  final BCryptService bCryptService;
+  final Duration _expiration = const Duration(minutes: 30);
   final Duration _refreshTokenExpiration = const Duration(days: 3);
 
-  AuthRepositoryImpl(this.datasource, this.tokenManager);
+  AuthRepositoryImpl(this.datasource, this.tokenManager, this.bCryptService);
 
   @override
   Future<Either<AuthException, Tokenization>> fromCredentials({required String email, required String password}) async {
     try {
       final userMap = await datasource.fromCredentials(email: email);
 
-      if (!BCrypt.checkpw(password, userMap['password'])) {
+      if (!bCryptService.checkPassword(password, userMap['password'])) {
         return Left(NotAuthorized('Password error'));
       }
 
@@ -71,10 +72,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<AuthException, Unit>> checkToken({required String accessToken}) async {
+  Future<Either<AuthException, Map<String, dynamic>>> checkToken({required String accessToken}) async {
     try {
-      await tokenManager.validateToken(accessToken);
-      return Right(unit);
+      final claims = await tokenManager.validateToken(accessToken);
+      return Right(claims);
     } on AuthException catch (e) {
       return Left(e);
     }

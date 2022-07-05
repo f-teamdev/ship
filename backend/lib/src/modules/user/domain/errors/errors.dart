@@ -18,6 +18,14 @@ class UserUpdateValidate extends UserException {
   UserUpdateValidate(super.message);
 }
 
+class GetUserValidate extends UserException {
+  GetUserValidate(super.message);
+}
+
+class UserNotFound extends UserException {
+  UserNotFound(super.message);
+}
+
 class PasswordValidate extends UserException {
   PasswordValidate(super.message);
 }
