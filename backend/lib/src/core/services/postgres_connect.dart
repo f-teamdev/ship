@@ -33,7 +33,7 @@ class PostgresConnect implements IPostgresConnect {
     final password = uri.userInfo.split(':').last;
     final database = uri.pathSegments.first;
     print('Postgres: $host, port: $port');
-    return PostgreSQLConnection(host, port, database, username: username, password: password, isUnixSocket: true);
+    return PostgreSQLConnection(host, port, database, username: username, password: password, isUnixSocket: false);
   }
 
   @override
