@@ -5,6 +5,7 @@ import 'package:backend/src/modules/user/infra/adapters/user_adapter.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../../domain/repositories/user_repository.dart';
+import '../../domain/usecases/update_user.dart';
 import '../datasources/user_datasource.dart';
 
 class UserRepositoryImpl implements UserRepository {
@@ -33,17 +34,9 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<UserException, UserEntity>> updateUser(UserEntity userEntity) async {
+  Future<Either<UserException, UserEntity>> updateUser(UpdateUserParams params) async {
     try {
-      var userMapParams = <String, dynamic>{
-        'name': userEntity.name,
-        'email': userEntity.email,
-        'imageUrl': userEntity.imageUrl,
-        'role': userEntity.role.name,
-        'active': userEntity.active,
-        'password': bCryptService.generatePassword('123'),
-      };
-      final userMap = await datasource.updateUser(userMapParams);
+      final userMap = await datasource.updateUser(params.toMap());
       return Right(UserAdapter.fromJson(userMap));
     } on UserException catch (e) {
       return Left(e);

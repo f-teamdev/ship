@@ -245,6 +245,38 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorEntity"
+    put:
+      tags:
+      - "user"
+      security:
+        - bearerAuth: [] 
+      summary: "Update a use"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserEntity"
+              
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserEntity"
+        "403":
+          description: "Forbidden operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEntity"
+        "500":
+          description: "Internal error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEntity"
 components:
   securitySchemes:
     bearerAuth:

@@ -22,7 +22,7 @@ void main() {
     when(() => repository.createUser(params)).thenAnswer((_) async => Right(UserEntityMock()));
 
     final result = await createUser(params);
-    expect(result.fold(id, id), isA<UserEntity>());
+    expect(result.fold(id, id), isA<ProjectEntity>());
   });
 
   group('validations | ', () {

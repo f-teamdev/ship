@@ -22,4 +22,4 @@ class TrackerMock extends Mock implements Tracker {}
 
 class UserRepositoryMock extends Mock implements UserRepository {}
 
-class UserEntityMock extends Mock implements UserEntity {}
+class UserEntityMock extends Mock implements ProjectEntity {}

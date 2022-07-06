@@ -10,8 +10,6 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_modular/shelf_modular.dart';
 
 import '../../auth/presenter/guards/auth_guard.dart';
-import '../domain/errors/errors.dart';
-import '../domain/usecases/get_users.dart';
 
 class UserResource extends Resource {
   @override
@@ -25,7 +23,7 @@ class UserResource extends Resource {
       ];
 
   FutureOr<Response> _create(ModularArguments arguments, Injector injector) async {
-    final user = UserAdapter.fromJson(arguments.data
+    final user = ProjectAdapter.fromJson(arguments.data
       ..remove('role')
       ..remove('active'));
 
@@ -34,7 +32,7 @@ class UserResource extends Resource {
 
     return result.fold(
       (l) => Response(500, body: {'error': l.toString()}),
-      (user) => Response.ok(jsonEncode(UserAdapter.toJson(user))),
+      (user) => Response.ok(jsonEncode(ProjectAdapter.toJson(user))),
     );
   }
 
@@ -76,7 +74,7 @@ class UserResource extends Resource {
     return result.fold(
       (l) => Response(l is UserNotFound ? 404 : 500, body: {'error': l.message}),
       (user) => Response.ok(
-        jsonEncode(UserAdapter.toJson(user)),
+        jsonEncode(ProjectAdapter.toJson(user)),
       ),
     );
   }
@@ -93,7 +91,7 @@ class UserResource extends Resource {
         }
         return Response(500, body: {'error': l.toString()});
       },
-      (user) => Response.ok(jsonEncode(UserAdapter.toJson(user))),
+      (user) => Response.ok(jsonEncode(ProjectAdapter.toJson(user))),
     );
   }
 
@@ -103,7 +101,7 @@ class UserResource extends Resource {
     return result.fold(
       (l) => Response(500, body: {'error': l.toString()}),
       (users) {
-        final mapList = users.map(UserAdapter.toJson).toList();
+        final mapList = users.map(ProjectAdapter.toJson).toList();
         return Response.ok(jsonEncode(mapList));
       },
     );

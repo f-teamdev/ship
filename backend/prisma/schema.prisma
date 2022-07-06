@@ -1,28 +1,47 @@
 
-generator dart {
-  provider = "dart generator/generator.dart"
-  output   = "../lib"
-}
+// generator dart {
+//   provider = "dart generator/generator.dart"
+//   output   = "../lib"
+// }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-
-model User {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  email       String   @unique
-  name        String
-  imageUrl    String?
-  active      Boolean  @default(true)
-  password    String
-  role        Role     @default(dev)
-}
-
 enum Role {
   dev
   manager
   admin
+}
+
+model User {
+  id                  Int               @id @default(autoincrement())
+  createdAt           DateTime          @default(now())
+  email               String            @unique
+  name                String    
+  imageUrl            String?   
+  active              Boolean           @default(true)
+  password            String    
+  role                Role              @default(dev)
+  project             UserOnProject[]       
+}
+
+model Project {
+  id                  Int               @id @default(autoincrement())
+  createdAt           DateTime          @default(now())
+  title               String          
+  description         String            @default("")
+  imageUrl            String?         
+  active              Boolean           @default(true)
+  user                UserOnProject[]     
+}
+
+model UserOnProject {
+  user                User              @relation(fields: [idUser], references: [id])
+  idUser              Int
+  project             Project           @relation(fields: [idProject], references: [id])
+  idProject           Int
+
+  @@id([idUser, idProject])
 }
