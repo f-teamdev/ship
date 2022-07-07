@@ -74,7 +74,7 @@ class UserResource extends Resource {
     final result = await updateUser(updateUserParams);
 
     return result.fold(
-      (l) => Response(l is UserNotFound ? 404 : 500, body: {'error': l.message}),
+      (l) => Response(l is UserNotFound ? 404 : 500, body: jsonEncode({'error': l.message})),
       (user) => Response.ok(
         jsonEncode(UserAdapter.toJson(user)),
       ),
@@ -89,7 +89,7 @@ class UserResource extends Resource {
     return result.fold(
       (l) {
         if (l is UserNotFound) {
-          return Response(404, body: {'error': l.message});
+          return Response(404, body: jsonEncode({'error': l.message}));
         }
         return Response(500, body: {'error': l.toString()});
       },
@@ -101,7 +101,7 @@ class UserResource extends Resource {
     final getUsers = injector.get<GetUsers>();
     final result = await getUsers.call();
     return result.fold(
-      (l) => Response(500, body: {'error': l.toString()}),
+      (l) => Response(500, body: jsonEncode({'error': l.message})),
       (users) {
         final mapList = users.map(UserAdapter.toJson).toList();
         return Response.ok(jsonEncode(mapList));

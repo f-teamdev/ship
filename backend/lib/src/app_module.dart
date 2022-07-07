@@ -13,6 +13,7 @@ import 'modules/project/project_module.dart';
 import 'modules/swagger/guard/swagger_guard.dart';
 import 'modules/swagger/swagger_handler.dart';
 import 'modules/user/user_module.dart';
+import 'modules/user_on_project/user_on_project_module.dart';
 
 class AppModule extends Module {
   final DotEnvService _dotEnvService;
@@ -41,5 +42,6 @@ class AppModule extends Module {
         Route.module('/auth', module: AuthModule()),
         Route.module('/', module: UserModule()),
         Route.module('/', module: ProjectModule()),
+        Route.module('/', module: UserOnProjectModule()),
       ];
 }
