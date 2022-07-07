@@ -1,21 +1,21 @@
 import 'package:backend/src/core/services/bcrypt_service.dart';
-import 'package:backend/src/modules/user/domain/errors/errors.dart';
-import 'package:backend/src/modules/user/infra/adapters/user_adapter.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../../domain/entities/project_entity.dart';
+import '../../domain/errors/errors.dart';
 import '../../domain/repositories/project_repository.dart';
 import '../../domain/usecases/update_projects.dart';
-import '../datasources/user_datasource.dart';
+import '../adapters/project_adapter.dart';
+import '../datasources/project_datasource.dart';
 
 class ProjectRepositoryImpl implements ProjectRepository {
-  final UserDatasource datasource;
+  final ProjectDatasource datasource;
   final BCryptService bCryptService;
 
   ProjectRepositoryImpl(this.datasource, this.bCryptService);
 
   @override
-  Future<Either<UserException, ProjectEntity>> createProject(ProjectEntity parameters) async {
+  Future<Either<ProjectException, ProjectEntity>> createProject(ProjectEntity parameters) async {
     try {
       var userCreation = <String, dynamic>{
         'title': parameters.title,
@@ -24,40 +24,40 @@ class ProjectRepositoryImpl implements ProjectRepository {
         'active': parameters.active,
       };
 
-      final userMap = await datasource.createUser(userCreation);
-      return Right(ProjectAdapter.fromJson(userMap));
-    } on UserException catch (e) {
+      final projectMap = await datasource.createProject(userCreation);
+      return Right(ProjectAdapter.fromJson(projectMap));
+    } on ProjectException catch (e) {
       return Left(e);
     }
   }
 
   @override
-  Future<Either<UserException, ProjectEntity>> updateUser(UpdateProjectParams params) async {
+  Future<Either<ProjectException, ProjectEntity>> updateProject(UpdateProjectParams params) async {
     try {
-      final userMap = await datasource.updateUser(params.toMap());
+      final userMap = await datasource.updateProject(params.toMap());
       return Right(ProjectAdapter.fromJson(userMap));
-    } on UserException catch (e) {
+    } on ProjectException catch (e) {
       return Left(e);
     }
   }
 
   @override
-  Future<Either<UserException, ProjectEntity>> getUserById(int id) async {
+  Future<Either<ProjectException, ProjectEntity>> getProjectById(int id) async {
     try {
-      final userMap = await datasource.getUserById(id);
+      final userMap = await datasource.getProjectById(id);
       return Right(ProjectAdapter.fromJson(userMap));
-    } on UserException catch (e) {
+    } on ProjectException catch (e) {
       return Left(e);
     }
   }
 
   @override
-  Future<Either<UserException, List<ProjectEntity>>> getUsers() async {
+  Future<Either<ProjectException, List<ProjectEntity>>> getProjects() async {
     try {
-      final result = await datasource.getUsers();
+      final result = await datasource.getProjects();
       final users = result.map(ProjectAdapter.fromJson).toList();
       return Right(users);
-    } on UserException catch (e) {
+    } on ProjectException catch (e) {
       return Left(e);
     }
   }

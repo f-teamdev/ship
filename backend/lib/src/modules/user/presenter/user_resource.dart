@@ -44,10 +44,6 @@ class UserResource extends Resource {
     final updateUser = injector.get<UpdateUser>();
     final data = arguments.data as Map;
 
-    if (data.isEmpty) {
-      return Response.badRequest(body: jsonEncode({'error': 'Zero Payload'}));
-    }
-
     var tokenResult = await checkToken(accessToken: accessToken);
     final clams = tokenResult.getOrElse((l) => throw l);
 
@@ -67,6 +63,10 @@ class UserResource extends Resource {
     if (clams['role'] == 'manager') {
       data.remove('role');
       data.remove('email');
+    }
+
+    if (data.isEmpty) {
+      return Response.badRequest(body: jsonEncode({'error': 'Zero Payload'}));
     }
 
     final updateUserParams = UpdateUserParams.fromJson(data);

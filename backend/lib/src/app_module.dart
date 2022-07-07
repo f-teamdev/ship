@@ -5,9 +5,11 @@ import '../backend.dart';
 import 'core/redis/redis_service.dart';
 import 'core/services/bcrypt_service.dart';
 import 'core/services/postgres_connect.dart';
+import 'core/token/jose_token_manager.dart';
 import 'core/token/token_manager.dart';
 import 'modules/auth/auth_module.dart';
 import 'modules/file/resources/uplodad_resource.dart';
+import 'modules/project/project_module.dart';
 import 'modules/swagger/guard/swagger_guard.dart';
 import 'modules/swagger/swagger_handler.dart';
 import 'modules/user/user_module.dart';
@@ -26,7 +28,7 @@ class AppModule extends Module {
   List<Bind> get binds => [
         Bind.instance<DotEnvService>(_dotEnvService),
         Bind.singleton((i) => RedisService(i())),
-        Bind.factory((i) => TokenManager()),
+        Bind.factory<TokenManager>((i) => JoseTokenManager()),
         Bind.factory((i) => BCryptService()),
         Bind.singleton((i) => PostgresConnect(i())),
       ];
@@ -38,5 +40,6 @@ class AppModule extends Module {
         Route.resource('/file', resource: UploadResource()),
         Route.module('/auth', module: AuthModule()),
         Route.module('/', module: UserModule()),
+        Route.module('/', module: ProjectModule()),
       ];
 }

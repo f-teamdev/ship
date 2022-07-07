@@ -15,6 +15,8 @@ tags:
   description: "Access to User"
 - name: "file"
   description: "Upload e Download de arquivos"
+- name: "project"
+  description: "Access to project"
 paths:
   /auth/login:
     get:
@@ -29,6 +31,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tokenization"
+        "403":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "500":
+          $ref: '#/components/responses/InternalError'
   /auth/check_token:
     get:
       security:
@@ -72,24 +80,31 @@ paths:
                 properties:
                   message:
                     type: string
-  /auth/refresh_token/{token}:
+        "403":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "500":
+          $ref: '#/components/responses/InternalError'
+  /auth/refresh_token:
     get:
       tags:
         - "auth"
-      parameters:
-        - in: path
-          name: token
-          schema:
-            type: string
-          required: true
-          description: refreshToken
+      security:
+        - bearerAuthRefreshToken: [] 
       responses:
         '200':   
           description: Atualiza token
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Tokenization"          
+                $ref: "#/components/schemas/Tokenization" 
+        "403":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "500":
+          $ref: '#/components/responses/InternalError'         
   /file/upload:
     post:
       tags:
@@ -114,6 +129,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/FileReturn"
+        "403":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "500":
+          $ref: '#/components/responses/InternalError'
   /file/download/{file}:
     get:
       tags:
@@ -168,23 +189,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/UserEntity"
         "403":
-          description: "Forbidden operation"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEntity"
+          $ref: '#/components/responses/Unauthorized'
         "404":
-          description: "User not found"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEntity"
+          $ref: '#/components/responses/NotFound'
         "500":
-          description: "Internal error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEntity"
+          $ref: '#/components/responses/InternalError'
   /user:
     get:
       tags:
@@ -202,17 +211,11 @@ paths:
                 items:
                   $ref: "#/components/schemas/UserEntity"
         "403":
-          description: "Forbidden operation"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEntity"
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
         "500":
-          description: "Internal error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEntity"
+          $ref: '#/components/responses/InternalError'
     post:
       tags:
       - "user"
@@ -234,17 +237,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/UserEntity"
         "403":
-          description: "Forbidden operation"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEntity"
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
         "500":
-          description: "Internal error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEntity"
+          $ref: '#/components/responses/InternalError'
     put:
       tags:
       - "user"
@@ -266,26 +263,147 @@ paths:
               schema:
                 $ref: "#/components/schemas/UserEntity"
         "403":
-          description: "Forbidden operation"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEntity"
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
         "500":
-          description: "Internal error"
+          $ref: '#/components/responses/InternalError'
+  /project/{id}:
+    get:
+      tags:
+      - "project"
+      security:
+        - bearerAuth: [] 
+      summary: "get project by id"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The project ID
+      responses:
+        "200":
+          description: "successful operation"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorEntity"
+                $ref: "#/components/schemas/ProjectEntity"
+        "403":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "500":
+          $ref: '#/components/responses/InternalError'
+  /project:
+    get:
+      tags:
+      - "project"
+      security:
+        - bearerAuth: [] 
+      summary: "get all project"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProjectEntity"
+        "403":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "500":
+          $ref: '#/components/responses/InternalError'
+    post:
+      tags:
+      - "project"
+      security:
+        - bearerAuth: [] 
+      summary: "Create a project"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectEntity"
+              
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectEntity"
+        "403":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "500":
+          $ref: '#/components/responses/InternalError'
+    put:
+      tags:
+      - "project"
+      security:
+        - bearerAuth: [] 
+      summary: "Update a project"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectEntity"
+              
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectEntity"
+        "403":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "500":
+          $ref: '#/components/responses/InternalError'
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+      description: "Auth header (Authorization) Access Token"
+    bearerAuthRefreshToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "(Authorization) Refresh Token"
     basicAuth:   
       type: http
       scheme: basic
+  responses:
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEntity'
+    InternalError:
+      description: Internal error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEntity'
+    Unauthorized:
+      description: Forbidden operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEntity'
   schemas:
     ErrorEntity:
       type: "object"
@@ -326,5 +444,18 @@ components:
             - "dev"
             - "manager"
             - "admin"
+    ProjectEntity:
+      type: "object"
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+        active:
+          type: boolean
 
 

@@ -22,6 +22,8 @@ dependencies:
   mime: ^1.0.2
   http_parser: ^4.0.1
   shelf_swagger_ui: ^0.0.1
+  dart_jsonwebtoken: ^2.4.1
+
 
 dev_dependencies:
   lints: ^2.0.0

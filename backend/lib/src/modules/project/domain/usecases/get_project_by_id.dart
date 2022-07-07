@@ -2,7 +2,7 @@ import 'package:backend/src/modules/project/domain/errors/errors.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../entities/project_entity.dart';
-import '../repositories/Project_repository.dart';
+import '../repositories/project_repository.dart';
 
 abstract class GetProjectById {
   Future<Either<ProjectException, ProjectEntity>> call(int id);
