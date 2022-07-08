@@ -15,7 +15,7 @@ class UploadResource extends Resource {
   @override
   List<Route> get routes => [
         Route.post('/upload', _upload, middlewares: [AuthGuard()]),
-        Route.get('/download/:image', _download),
+        Route.get('/:image', _download),
       ];
 
   FutureOr<Response> _upload(Request request) async {

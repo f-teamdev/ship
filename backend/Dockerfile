@@ -13,6 +13,6 @@ RUN dart compile exe bin/backend.dart -o bin/server
 FROM scratch
 COPY --from=build /runtime/ /
 COPY --from=build /app/bin/server /server
-COPY --from=build /app/swagger/swagger.yaml /swagger/swagger.yaml
+COPY --from=build /app/swagger /swagger
 EXPOSE 4000
 CMD ["/server"]
