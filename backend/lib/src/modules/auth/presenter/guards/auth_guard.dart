@@ -20,7 +20,7 @@ import '../../domain/usecases/check_token.dart';
 class AuthGuard extends ModularMiddleware {
   final List<String> allowedRoles;
 
-  AuthGuard([this.allowedRoles = const []]);
+  AuthGuard({this.allowedRoles = const []});
 
   @override
   Handler call(Handler handler, [ModularRoute? route]) {
@@ -38,6 +38,7 @@ class AuthGuard extends ModularMiddleware {
           if (allowedRoles.isEmpty || allowedRoles.contains(role)) {
             return handler(request);
           }
+
           return Response.forbidden(jsonEncode({'error': 'Role $role not allowed.'}));
         },
       );

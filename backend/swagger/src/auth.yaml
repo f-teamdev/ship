@@ -1,0 +1,98 @@
+components:
+  login: 
+    get:
+      security:
+        - basicAuth: [] 
+      tags:
+        - "auth"
+      responses:
+        '200':   
+          description: Realizado login com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tokenization"
+        "403":
+          $ref: '../swagger.yaml#/components/responses/Unauthorized'
+        "404":
+          $ref: '../swagger.yaml#/components/responses/NotFound'
+        "500":
+          $ref: '../swagger.yaml#/components/responses/InternalError'
+  check_token: 
+    get:
+      security:
+        - bearerAuth: [] 
+      tags:
+        - "auth"
+      responses:
+        '200':   
+          description: Checa autorização
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  status:
+                    type: string
+  update_password: 
+    put:
+      security:
+        - bearerAuth: [] 
+      tags:
+        - "auth"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                password:
+                  type: string
+                newPassword:
+                  type: string
+      responses:
+        '200':   
+          description: Checa autorização
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: string
+        "403":
+          $ref: '../swagger.yaml#/components/responses/Unauthorized'
+        "404":
+          $ref: '../swagger.yaml#/components/responses/NotFound'
+        "500":
+          $ref: '../swagger.yaml#/components/responses/InternalError'
+  refresh_token: 
+    get:
+      tags:
+        - "auth"
+      security:
+        - bearerAuthRefreshToken: [] 
+      responses:
+        '200':   
+          description: Atualiza token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tokenization" 
+        "403":
+          $ref: '../swagger.yaml#/components/responses/Unauthorized'
+        "404":
+          $ref: '../swagger.yaml#/components/responses/NotFound'
+        "500":
+          $ref: '../swagger.yaml#/components/responses/InternalError'
+  schemas:
+    Tokenization:
+      type: "object"
+      properties:
+        expiresIn:
+          type: integer
+        accessToken:
+          type: string
+        refreshToken:
+          type: string

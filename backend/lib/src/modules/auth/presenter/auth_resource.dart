@@ -17,7 +17,7 @@ class AuthResource implements Resource {
   @override
   List<Route> get routes => [
         Route.get('/login', login),
-        Route.get('/refresh_token/:token', refreshToken),
+        Route.get('/refresh_token', refreshToken),
         Route.get('/check_token', checkToken, middlewares: [AuthGuard()]),
         Route.put('/update_password', _updatePassword, middlewares: [AuthGuard()]),
       ];
@@ -33,8 +33,13 @@ class AuthResource implements Resource {
     return result.fold((l) => Response.forbidden(jsonEncode({'error': l.message})), (r) => Response.ok(r.toJson()));
   }
 
-  FutureOr<Response> refreshToken(Request request, ModularArguments args, Injector injector) async {
-    final result = await injector.get<RefreshToken>().call(refreshToken: args.params['token']);
+  FutureOr<Response> refreshToken(Request request, Injector injector) async {
+    final refreshToken = request.headers['Authorization']?.split(' ').last;
+
+    if (refreshToken == null || refreshToken.isEmpty) {
+      return Response.forbidden(jsonEncode({'error': 'RefreshToken not found'}));
+    }
+    final result = await injector.get<RefreshToken>().call(refreshToken: refreshToken);
     return result.fold((l) => Response.forbidden(jsonEncode({'error': l.message})), (r) => Response.ok(r.toJson()));
   }
 

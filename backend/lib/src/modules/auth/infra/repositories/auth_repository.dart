@@ -7,7 +7,6 @@ import 'package:backend/src/modules/auth/domain/usecases/update_password.dart';
 import 'package:backend/src/modules/auth/external/errors/errors.dart';
 import 'package:backend/src/modules/auth/infra/datasources/auth_datasource.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../../core/token/token_manager.dart';
 
@@ -30,14 +29,14 @@ class AuthRepositoryImpl implements AuthRepository {
         return Left(NotAuthorized('Password error'));
       }
 
-      final refreshToken = Uuid().v1();
       userMap.remove('password');
-      final tokenization = _generateTokenization(userMap, refreshToken);
+      final accessToken = _generateTokenization(userMap, 'accessToken', _expiration);
+      final refreshToken = _generateTokenization(userMap, 'refreshToken', _refreshTokenExpiration);
 
-      await datasource.saveRefreshToken(
-        key: refreshToken,
-        value: userMap,
-        expiresIn: _refreshTokenExpiration,
+      final tokenization = Tokenization(
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        expiresIn: _expiration.inSeconds,
       );
 
       return Right(tokenization);
@@ -46,28 +45,37 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  Tokenization _generateTokenization(Map claims, String newRefreshToken) {
+  String _generateTokenization(
+    Map claims,
+    String clientId,
+    Duration expiration,
+  ) {
     final accessToken = tokenManager.generateToken({
-      'exp': tokenManager.expireTime(_expiration),
+      'exp': tokenManager.expireTime(expiration),
+      'aud': clientId,
       ...claims,
     });
 
-    final tokenization = Tokenization(expiresIn: _expiration.inSeconds, accessToken: accessToken, refreshToken: newRefreshToken);
-    return tokenization;
+    return accessToken;
   }
 
   @override
   Future<Either<AuthException, Tokenization>> refresh({required String refreshToken}) async {
     try {
-      final userMap = await datasource.removeToken(token: refreshToken);
+      final claims = await tokenManager.validateToken(refreshToken, 'refreshToken');
+      final id = claims['id'] as int;
 
-      refreshToken = Uuid().v1();
-      await datasource.saveRefreshToken(
-        key: refreshToken,
-        value: userMap,
-        expiresIn: _refreshTokenExpiration,
+      final userMap = await datasource.fromId(id: id);
+
+      final accessToken = _generateTokenization(userMap, 'accessToken', _expiration);
+      refreshToken = _generateTokenization(userMap, 'refreshToken', _refreshTokenExpiration);
+
+      final tokenization = Tokenization(
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        expiresIn: _expiration.inSeconds,
       );
-      final tokenization = _generateTokenization(userMap, refreshToken);
+
       return Right(tokenization);
     } on AuthException catch (e) {
       return Left(e);
@@ -77,7 +85,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<AuthException, Map<String, dynamic>>> checkToken({required String accessToken}) async {
     try {
-      final claims = await tokenManager.validateToken(accessToken);
+      final claims = await tokenManager.validateToken(accessToken, 'accessToken');
       return Right(claims);
     } on AuthException catch (e) {
       return Left(e);

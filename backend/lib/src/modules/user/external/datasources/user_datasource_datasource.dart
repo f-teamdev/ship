@@ -26,7 +26,6 @@ class UserDatasourceImpl implements UserDatasource {
     final connection = await pg.connection;
 
     final columns = userMap.keys.where((e) => e != 'id').map((e) => '$e=@$e').toList();
-
     final results = await connection.mappedResultsQuery(
       'UPDATE public."User"SET ${columns.join(',')} WHERE id=@id RETURNING id, email, name, role, "imageUrl", active;',
       substitutionValues: userMap,

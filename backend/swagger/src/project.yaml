@@ -1,0 +1,120 @@
+components:
+  projectById:
+    get:
+      tags:
+      - "project"
+      security:
+        - bearerAuth: [] 
+      summary: "get project by id"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The project ID
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectEntity"
+        "403":
+          $ref: '../swagger.yaml#/components/responses/Unauthorized'
+        "404":
+          $ref: '../swagger.yaml#/components/responses/NotFound'
+        "500":
+          $ref: '../swagger.yaml#/components/responses/InternalError'
+  
+  projectCrud:
+    get:
+      tags:
+      - "project"
+      security:
+        - bearerAuth: [] 
+      summary: "get all project"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProjectEntity"
+        "403":
+          $ref: '../swagger.yaml#/components/responses/Unauthorized'
+        "404":
+          $ref: '../swagger.yaml#/components/responses/NotFound'
+        "500":
+          $ref: '../swagger.yaml#/components/responses/InternalError'
+    post:
+      tags:
+      - "project"
+      security:
+        - bearerAuth: [] 
+      summary: "Create a project"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectEntity"
+              
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectEntity"
+        "403":
+          $ref: '../swagger.yaml#/components/responses/Unauthorized'
+        "404":
+          $ref: '../swagger.yaml#/components/responses/NotFound'
+        "500":
+          $ref: '../swagger.yaml#/components/responses/InternalError'
+    put:
+      tags:
+      - "project"
+      security:
+        - bearerAuth: [] 
+      summary: "Update a project"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectEntity"
+              
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectEntity"
+        "403":
+          $ref: '../swagger.yaml#/components/responses/Unauthorized'
+        "404":
+          $ref: '../swagger.yaml#/components/responses/NotFound'
+        "500":
+          $ref: '../swagger.yaml#/components/responses/InternalError'
+  
+  schemas:
+    ProjectEntity:
+      type: "object"
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+        active:
+          type: boolean
+    

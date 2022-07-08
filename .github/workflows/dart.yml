@@ -35,12 +35,16 @@ jobs:
         run: |
           curl -X POST http://157.245.84.91:8081/images/pull -d "token=fsdgwegytjrfrwgfwg&restart_containers=true&image=jacobmoura7/ship-backend:dev&hostname=backend" -H "Content-Type: application/x-www-form-urlencoded"
         shell: bash
+        
       - name: Discord notification
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@master
+        uses: sarisia/actions-status-discord@v1
+        if: always()
         with:
-          args: '@Ship The project **ship-backend:dev** has been deployed.'
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          title: "ship-backend deploy"
+          description: "Developer ship backend"
+          color: 0x0000ff
+
           
           
           

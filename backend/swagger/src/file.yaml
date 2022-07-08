@@ -1,0 +1,70 @@
+components:
+  upload:
+    post:
+      tags:
+      - "file"
+      security:
+        - bearerAuth: [] 
+      summary: "Upload de um arquivo"
+      description: ""
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileReturn"
+        "403":
+          $ref: '../swagger.yaml#/components/responses/Unauthorized'
+        "404":
+          $ref: '../swagger.yaml#/components/responses/NotFound'
+        "500":
+          $ref: '../swagger.yaml#/components/responses/InternalError'
+  download:
+    get:
+      tags:
+      - "file"
+      summary: "Download file"
+      description: ""
+      operationId: "donwloadFile"
+      parameters:
+      - name: "file"
+        in: "path"
+        description: "file name"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/jpg:
+              schema:
+                type: string
+                format: binary
+        "404":
+          $ref: '../swagger.yaml#/components/responses/NotFound'
+
+  schemas:
+    FileReturn:
+      type: "object"
+      properties:
+        image:
+          type: string
