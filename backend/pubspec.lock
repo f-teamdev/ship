@@ -357,7 +357,7 @@ packages:
       name: shelf_swagger_ui
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1"
+    version: "0.1.2"
   shelf_web_socket:
     dependency: transitive
     description:

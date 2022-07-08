@@ -2,7 +2,6 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_modular/shelf_modular.dart';
 
 import '../backend.dart';
-import 'core/redis/redis_service.dart';
 import 'core/services/bcrypt_service.dart';
 import 'core/services/postgres_connect.dart';
 import 'core/token/jose_token_manager.dart';
@@ -28,7 +27,6 @@ class AppModule extends Module {
   @override
   List<Bind> get binds => [
         Bind.instance<DotEnvService>(_dotEnvService),
-        Bind.singleton((i) => RedisService(i())),
         Bind.factory<TokenManager>((i) => JoseTokenManager()),
         Bind.factory((i) => BCryptService()),
         Bind.singleton((i) => PostgresConnect(i())),
@@ -36,7 +34,7 @@ class AppModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        Route.get('/documentation', SwaggerHandler(), middlewares: [SwaggerGuard()]),
+        Route.get('/documentation/**', SwaggerHandler(), middlewares: [SwaggerGuard()]),
         Route.get('/', (Request request) => Response.ok('FTeam Backend v0.0.1')),
         Route.resource('/file', resource: UploadResource()),
         Route.module('/auth', module: AuthModule()),

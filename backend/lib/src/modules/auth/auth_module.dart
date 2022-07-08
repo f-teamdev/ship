@@ -12,7 +12,7 @@ class AuthModule extends Module {
   @override
   List<Bind<Object>> get binds => [
         //external
-        Bind.factory((i) => AuthDatasourceImpl(redis: i(), pg: i()), export: true),
+        Bind.factory((i) => AuthDatasourceImpl(pg: i()), export: true),
         //infra
         Bind.factory((i) => AuthRepositoryImpl(i(), i(), i(), i()), export: true),
         //domain
