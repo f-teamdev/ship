@@ -1,0 +1,63 @@
+components:
+  usersByProjectId:
+    get:
+      tags:
+      - "user-on-project"
+      security:
+        - bearerAuth: [] 
+      
+      summary: "get users by project id"
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The project ID
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "user.yaml#/components/schemas/UserEntity"
+        "403":
+          $ref: '../swagger.yaml#/components/responses/Unauthorized'
+        "404":
+          $ref: '../swagger.yaml#/components/responses/NotFound'
+        "500":
+          $ref: '../swagger.yaml#/components/responses/InternalError'
+  projectsByUserId: 
+    get:
+      tags:
+      - "user-on-project"
+      security:
+        - bearerAuth: [] 
+      
+      summary: "get projects by user id"
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The user ID
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "project.yaml#/components/schemas/ProjectEntity"
+        "403":
+          $ref: '../swagger.yaml#/components/responses/Unauthorized'
+        "404":
+          $ref: '../swagger.yaml#/components/responses/NotFound'
+        "500":
+          $ref: '../swagger.yaml#/components/responses/InternalError'
