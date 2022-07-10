@@ -27,6 +27,26 @@ components:
           $ref: '../swagger.yaml#/components/responses/NotFound'
         "500":
           $ref: '../swagger.yaml#/components/responses/InternalError'
+  loggedUser:
+    get:
+      tags:
+      - "user"
+      security:
+        - bearerAuth: [] 
+      summary: "get logged user"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserEntity"
+        "403":
+          $ref: '../swagger.yaml#/components/responses/Unauthorized'
+        "404":
+          $ref: '../swagger.yaml#/components/responses/NotFound'
+        "500":
+          $ref: '../swagger.yaml#/components/responses/InternalError'
   userCrud: 
     get:
       tags:

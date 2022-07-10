@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:ship_dashboard/app/modules/splash/splash_page.dart';
 import 'package:ship_dashboard/app/shared/services/encrypt/encrypt_service.dart';
 import 'package:ship_dashboard/app/shared/services/network/dio/dio_auth_interceptor.dart';
 
@@ -34,6 +35,7 @@ class AppModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
+        ChildRoute('/', child: (_, __) => SplashScreen()),
         ModuleRoute('/auth', module: AuthModule()),
         ModuleRoute('/home', module: HomeModule()),
       ];

@@ -19,6 +19,7 @@ class UserResource extends Resource {
         Route.post('/user', _create, middlewares: [
           AuthGuard(allowedRoles: ['admin', 'manager'])
         ]),
+        Route.get('/logged_user', _getLoggedUser, middlewares: [AuthGuard()]),
         Route.get('/user', _getAllUser, middlewares: [AuthGuard()]),
         Route.get('/user/:id', _getUser, middlewares: [AuthGuard()]),
         Route.put('/user', _update, middlewares: [AuthGuard()]),
@@ -95,6 +96,19 @@ class UserResource extends Resource {
       },
       (user) => Response.ok(jsonEncode(UserAdapter.toJson(user))),
     );
+  }
+
+  FutureOr<Response> _getLoggedUser(Request request, Injector injector) async {
+    final accessToken = request.headers['Authorization']!.split(' ').last;
+    final checkToken = injector.get<CheckToken>();
+    var tokenResult = await checkToken(accessToken: accessToken);
+    final clams = tokenResult.getOrElse((l) => throw l);
+
+    final arguments = ModularArguments(uri: Uri.parse(''), params: {
+      'id': clams['id'],
+    });
+
+    return _getUser(arguments, injector);
   }
 
   FutureOr<Response> _getAllUser(ModularArguments arguments, Injector injector) async {

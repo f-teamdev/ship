@@ -37,6 +37,8 @@ paths:
     $ref: ./src/file.yaml#/components/download
 
   # user
+  /logged_user:
+    $ref: ./src/user.yaml#/components/loggedUser
   /user/{id}:
     $ref: ./src/user.yaml#/components/userById
   /user:

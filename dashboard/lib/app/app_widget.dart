@@ -44,7 +44,6 @@ class _AppWidgetState extends State<AppWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Modular.setInitialRoute('/auth/');
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Ship FTeam',
