@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf_modular/shelf_modular.dart';
 
@@ -13,6 +15,24 @@ Future<shelf.Handler> serverInicialization() async {
     module: AppModule(dotEnv),
     middlewares: [
       shelf.logRequests(),
+      jsonEncoder(),
     ],
   );
+}
+
+shelf.Middleware jsonEncoder() {
+  return (innerHanddler) {
+    return (request) async {
+      var response = await innerHanddler(request);
+      final isFile = request.url.pathSegments.contains('file') && request.method.toUpperCase() == 'GET';
+      if (!isFile) {
+        response = response.change(headers: {
+          ...response.headers,
+          HttpHeaders.contentTypeHeader: 'application/json',
+        });
+      }
+
+      return response;
+    };
+  };
 }

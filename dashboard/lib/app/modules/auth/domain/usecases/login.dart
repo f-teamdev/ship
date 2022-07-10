@@ -18,9 +18,10 @@ class LoginImpl implements Login {
 
   @override
   TaskEither<AuthException, Tokenization> call(LoginCredentials credentials) {
-    return credentials.validate().map(_baseAuthCredential).bindFuture(
-          _repository.loginWithEmailAndPassword,
-        );
+    return credentials
+        .validate() //
+        .map(_baseAuthCredential)
+        .bindFuture(_repository.loginWithEmailAndPassword);
   }
 
   String _baseAuthCredential(LoginCredentials credentials) {

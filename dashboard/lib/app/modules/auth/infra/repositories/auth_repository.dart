@@ -20,4 +20,14 @@ class AuthRepositoryImpl extends AuthRepository {
       return Left(e);
     }
   }
+
+  @override
+  Future<Either<AuthException, Tokenization>> refreshToken(String refreshToken) async {
+    try {
+      final map = await datasource.refreshToken(refreshToken);
+      return Right(TokenizationAdapter.fromJson(map));
+    } on AuthException catch (e) {
+      return Left(e);
+    }
+  }
 }

@@ -15,10 +15,8 @@ class LoginCredentials {
 
   Either<AuthException, LoginCredentials> validate() {
     return _email
-        .validate()
-        .bind(
-          _password.validate,
-        )
+        .validate() //
+        .bind(_password.validate)
         .mapLeft(AuthException.new)
         .map((a) => this);
   }

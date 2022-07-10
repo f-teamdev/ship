@@ -10,4 +10,12 @@ class TokenizationAdapter {
       expiresIn: json['expiresIn'],
     );
   }
+
+  static Map<String, dynamic> toJson(Tokenization tokenization) {
+    return {
+      'accessToken': tokenization.accessToken,
+      'refreshToken': tokenization.refreshToken,
+      'expiresIn': tokenization.expiresIn,
+    };
+  }
 }

@@ -4,4 +4,5 @@ import 'package:ship_dashboard/app/modules/auth/domain/exceptions/exceptions.dar
 
 abstract class AuthRepository {
   Future<Either<AuthException, Tokenization>> loginWithEmailAndPassword(String credentials);
+  Future<Either<AuthException, Tokenization>> refreshToken(String refreshToken);
 }

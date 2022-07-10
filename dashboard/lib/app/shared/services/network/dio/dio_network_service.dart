@@ -12,7 +12,12 @@ class DioNetworkService implements NetworkService {
   @override
   Future<NetworkResponse> get(String path, {bool Function(int? statusCode)? validateStatus, Map<String, String> headers = const {}}) async {
     try {
-      final response = await _dio.get(path, options: Options(validateStatus: validateStatus, headers: headers));
+      final response = await _dio.get(path,
+          options: Options(
+            validateStatus: validateStatus,
+            headers: headers,
+            responseType: ResponseType.json,
+          ));
       return NetworkResponse(response.data, response.statusCode);
     } on DioError catch (e) {
       throw NetworkException(
@@ -28,7 +33,12 @@ class DioNetworkService implements NetworkService {
   @override
   Future<NetworkResponse> delete(String path, {bool Function(int? statusCode)? validateStatus, Map<String, String> headers = const {}}) async {
     try {
-      final response = await _dio.delete(path, options: Options(validateStatus: validateStatus, headers: headers));
+      final response = await _dio.delete(path,
+          options: Options(
+            validateStatus: validateStatus,
+            headers: headers,
+            responseType: ResponseType.json,
+          ));
       return NetworkResponse(response.data, response.statusCode);
     } on DioError catch (e) {
       throw NetworkException(
@@ -44,7 +54,13 @@ class DioNetworkService implements NetworkService {
   @override
   Future<NetworkResponse> patch(String path, {data, bool Function(int? statusCode)? validateStatus, Map<String, String> headers = const {}}) async {
     try {
-      final response = await _dio.patch(path, data: data, options: Options(validateStatus: validateStatus, headers: headers));
+      final response = await _dio.patch(path,
+          data: data,
+          options: Options(
+            validateStatus: validateStatus,
+            headers: headers,
+            responseType: ResponseType.json,
+          ));
       return NetworkResponse(response.data, response.statusCode);
     } on DioError catch (e) {
       throw NetworkException(
@@ -60,7 +76,13 @@ class DioNetworkService implements NetworkService {
   @override
   Future<NetworkResponse> post(String path, {data, bool Function(int? statusCode)? validateStatus, Map<String, String> headers = const {}}) async {
     try {
-      final response = await _dio.post(path, data: data, options: Options(validateStatus: validateStatus, headers: headers));
+      final response = await _dio.post(path,
+          data: data,
+          options: Options(
+            validateStatus: validateStatus,
+            headers: headers,
+            responseType: ResponseType.json,
+          ));
       return NetworkResponse(response.data, response.statusCode);
     } on DioError catch (e) {
       throw NetworkException(
@@ -76,7 +98,13 @@ class DioNetworkService implements NetworkService {
   @override
   Future<NetworkResponse> put(String path, {data, bool Function(int? statusCode)? validateStatus, Map<String, String> headers = const {}}) async {
     try {
-      final response = await _dio.put(path, data: data, options: Options(validateStatus: validateStatus, headers: headers));
+      final response = await _dio.put(path,
+          data: data,
+          options: Options(
+            validateStatus: validateStatus,
+            headers: headers,
+            responseType: ResponseType.json,
+          ));
       return NetworkResponse(response.data, response.statusCode);
     } on DioError catch (e) {
       throw NetworkException(

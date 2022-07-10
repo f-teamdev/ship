@@ -5,18 +5,18 @@ import '../../../../modules/auth/presentation/stores/auth_store.dart';
 import '../../../constants/constants.dart';
 
 class DioAuthInterceptor extends Interceptor {
-  final AuthStore _authStore;
+  final AuthStore Function() _authStoreLazy;
   final Dio _dio;
 
-  DioAuthInterceptor(this._authStore, this._dio);
+  DioAuthInterceptor(this._authStoreLazy, this._dio);
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    if (options.headers.containsKey(NO_INTERCEPTORS)) {
+    if (options.headers.containsKey(NO_AUTHORIZATION)) {
       handler.next(options);
       return;
     }
-
+    final _authStore = _authStoreLazy();
     final state = _authStore.state;
     if (state is Logged) {
       final tokenization = state.tokenization;
@@ -29,6 +29,8 @@ class DioAuthInterceptor extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 403 && !err.requestOptions.headers.containsKey(REFRESHED_TOKEN)) {
+      final _authStore = _authStoreLazy();
+
       await _authStore.refreshToken();
       if (_authStore.state is! Logged) {
         handler.next(err);

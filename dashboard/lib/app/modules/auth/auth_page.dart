@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_triple/flutter_triple.dart';
+import 'package:fpdart/fpdart.dart' hide State;
+import 'package:ship_dashboard/app/modules/auth/domain/params/login_credentials.dart';
+import 'package:ship_dashboard/app/modules/auth/presentation/states/auth_state.dart';
+import 'package:ship_dashboard/app/modules/auth/presentation/stores/auth_store.dart';
 import 'package:ship_dashboard/app/shared/constants.dart';
 
-import 'auth_controller.dart';
+import 'domain/exceptions/exceptions.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -13,10 +18,33 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   bool _isObscuredText = true;
+  final credentials = LoginCredentials();
+
+  final store = Modular.get<AuthStore>();
+
+  late final Disposer _observerDispose;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _observerDispose = store.observer(onState: (state) {
+      if (state is Logged) {
+        Modular.to.navigate('/home/');
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _observerDispose();
+    super.dispose();
+  }
+
+  _login() => credentials.validate().fold(id, store.login);
 
   @override
   Widget build(BuildContext context) {
-    final controller = Modular.get<AuthController>();
     return Scaffold(
       body: Center(
         child: ConstrainedBox(
@@ -40,7 +68,8 @@ class _AuthPageState extends State<AuthPage> {
                     SizedBox(height: 55),
                     TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: controller.cpfValidator,
+                      onChanged: credentials.setEmail,
+                      validator: (text) => credentials.email.validate().fold(id, (r) => null),
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         hintText: "Email",
@@ -53,8 +82,11 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                     ),
                     SizedBox(height: 12),
-                    TextField(
+                    TextFormField(
                       obscureText: _isObscuredText,
+                      onChanged: credentials.setPassword,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (text) => credentials.password.validate().fold(id, (r) => null),
                       decoration: InputDecoration(
                         hintText: "Senha",
                         fillColor: secondaryColor,
@@ -74,14 +106,18 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                     ),
                     SizedBox(height: 50),
-                    ElevatedButton(
-                      style: ButtonStyle(),
-                      onPressed: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('ENTRAR'),
-                      ),
-                    ),
+                    TripleBuilder<AuthStore, AuthException, AuthState>(
+                      builder: (context, triple) {
+                        return ElevatedButton(
+                          style: ButtonStyle(),
+                          onPressed: triple.isLoading ? null : _login,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('ENTRAR'),
+                          ),
+                        );
+                      },
+                    )
                   ],
                 ),
               ),

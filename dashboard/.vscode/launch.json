@@ -7,12 +7,20 @@
         {
             "name": "dashboard (dev)",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "toolArgs": [
+                "--dart-define",
+                "URL_BASE=https://dev.shipstore.info"
+            ]
         },
         {
             "name": "dashboard (prod)",
             "request": "launch",
             "type": "dart",
+            "toolArgs": [
+                "--dart-define",
+                "URL_BASE=https://prod.shipstore.info"
+            ]
         }
     ]
 }
