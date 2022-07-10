@@ -1,4 +1,4 @@
-import 'package:admin/app/features/home/home_controller.dart';
+import 'package:admin/app/modules/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -17,7 +17,7 @@ class _CustomTitleState extends State<CustomTitle> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       Modular.get<HomeController>().headText = widget.title;
     });
   }

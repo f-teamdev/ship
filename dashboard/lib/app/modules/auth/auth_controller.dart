@@ -36,5 +36,6 @@ class AuthController {
     if (!cpf.endsWith('$first$second')) {
       return 'cpf não é válido';
     }
+    return null;
   }
 }

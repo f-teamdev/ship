@@ -1,12 +1,12 @@
-import 'package:admin/app/features/home/home_controller.dart';
+import 'package:admin/app/shared/constants.dart';
 import 'package:admin/responsive.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'package:admin/app/shared/constants.dart';
 import 'package:flutter_triple/flutter_triple.dart';
+
+import '../home_controller.dart';
 
 class Header extends StatelessWidget {
   const Header({

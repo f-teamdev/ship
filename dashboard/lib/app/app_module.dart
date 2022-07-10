@@ -1,14 +1,11 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'features/auth/auth_module.dart';
-import 'features/home/home_module.dart';
-import 'shared/services/hasura_service.dart';
+import 'modules/auth/auth_module.dart';
+import 'modules/home/home_module.dart';
 
 class AppModule extends Module {
   @override
-  List<Bind> get binds => [
-        Bind.singleton((i) => HasuraService()),
-      ];
+  List<Bind> get binds => [];
 
   @override
   List<ModularRoute> get routes => [

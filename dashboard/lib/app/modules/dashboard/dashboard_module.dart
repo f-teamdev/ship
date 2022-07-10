@@ -1,4 +1,4 @@
-import 'package:admin/app/features/dashboard/dashboard_page.dart';
+import 'package:admin/app/modules/dashboard/dashboard_page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class DashboardModule extends Module {

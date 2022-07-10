@@ -5,13 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "admin",
+            "name": "dashboard (dev)",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "dashboard (prod)",
             "request": "launch",
             "type": "dart",
-            "args": [
-                "--dart-define",
-                "HASURA_URL=http://localhost:8080/v1/graphql"
-            ]
         }
     ]
 }

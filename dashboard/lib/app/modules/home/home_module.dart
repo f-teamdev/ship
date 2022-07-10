@@ -1,5 +1,5 @@
-import 'package:admin/app/features/dashboard/dashboard_module.dart';
-import 'package:admin/app/features/transaction/transaction_module.dart';
+import 'package:admin/app/modules/dashboard/dashboard_module.dart';
+import 'package:admin/app/modules/transaction/transaction_module.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'home_controller.dart';
