@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:ship_dashboard/app/shared/constants.dart';
 
@@ -35,19 +34,16 @@ class _AuthPageState extends State<AuthPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: 200,
-                      child: Image.asset("assets/images/logo.png"),
+                      width: 50,
+                      child: Image.asset("assets/images/logo.jpg"),
                     ),
                     SizedBox(height: 55),
                     TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: controller.cpfValidator,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        CpfFormatter(),
-                      ],
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        hintText: "CPF",
+                        hintText: "Email",
                         fillColor: secondaryColor,
                         filled: true,
                         border: OutlineInputBorder(
@@ -60,7 +56,7 @@ class _AuthPageState extends State<AuthPage> {
                     TextField(
                       obscureText: _isObscuredText,
                       decoration: InputDecoration(
-                        hintText: "SENHA",
+                        hintText: "Senha",
                         fillColor: secondaryColor,
                         filled: true,
                         border: OutlineInputBorder(
@@ -94,33 +90,5 @@ class _AuthPageState extends State<AuthPage> {
         ),
       ),
     );
-  }
-}
-
-class CpfFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    if (newValue.text.length > 14) {
-      return oldValue;
-    }
-    var text = newValue.text.replaceAll(new RegExp(r'[^\d\s]+'), '');
-
-    final buffer = StringBuffer();
-
-    for (var i = 0; i < text.length; i++) {
-      if (i == 3) {
-        buffer.writeAll(['.', text[i]]);
-      } else if (i == 6) {
-        buffer.writeAll(['.', text[i]]);
-      } else if (i == 9) {
-        buffer.writeAll(['-', text[i]]);
-      } else {
-        buffer.write(text[i]);
-      }
-    }
-
-    text = buffer.toString();
-
-    return newValue.copyWith(text: text, selection: TextSelection.collapsed(offset: text.length));
   }
 }
