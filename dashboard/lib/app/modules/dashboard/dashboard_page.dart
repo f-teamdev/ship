@@ -1,7 +1,7 @@
-import 'package:admin/app/shared/constants.dart';
-import 'package:admin/app/shared/widgets/custom_title.dart';
-import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:ship_dashboard/app/shared/constants.dart';
+import 'package:ship_dashboard/app/shared/widgets/custom_title.dart';
+import 'package:ship_dashboard/responsive.dart';
 
 import 'components/my_files.dart';
 import 'components/recent_files.dart';

@@ -1,7 +1,7 @@
-import 'package:admin/app/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:ship_dashboard/app/shared/constants.dart';
 
 import 'auth_controller.dart';
 

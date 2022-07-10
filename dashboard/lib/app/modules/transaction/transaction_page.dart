@@ -1,5 +1,5 @@
-import 'package:admin/app/shared/widgets/custom_title.dart';
 import 'package:flutter/material.dart';
+import 'package:ship_dashboard/app/shared/widgets/custom_title.dart';
 
 class TransactionPage extends StatelessWidget {
   const TransactionPage({Key? key}) : super(key: key);

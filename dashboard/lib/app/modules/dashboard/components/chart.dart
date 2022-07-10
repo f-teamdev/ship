@@ -1,6 +1,6 @@
-import 'package:admin/app/shared/constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:ship_dashboard/app/shared/constants.dart';
 
 class Chart extends StatelessWidget {
   const Chart({

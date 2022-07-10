@@ -1,6 +1,6 @@
-import 'package:admin/app/modules/dashboard/dashboard_module.dart';
-import 'package:admin/app/modules/transaction/transaction_module.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:ship_dashboard/app/modules/dashboard/dashboard_module.dart';
+import 'package:ship_dashboard/app/modules/transaction/transaction_module.dart';
 
 import 'home_controller.dart';
 import 'home_page.dart';

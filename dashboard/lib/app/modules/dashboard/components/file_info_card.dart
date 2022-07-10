@@ -1,8 +1,7 @@
-import 'package:admin/app/shared/models/MyFiles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'package:admin/app/shared/constants.dart';
+import 'package:ship_dashboard/app/shared/constants.dart';
+import 'package:ship_dashboard/app/shared/models/MyFiles.dart';
 
 class FileInfoCard extends StatelessWidget {
   const FileInfoCard({

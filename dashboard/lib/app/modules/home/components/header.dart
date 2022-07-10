@@ -1,10 +1,10 @@
-import 'package:admin/app/shared/constants.dart';
-import 'package:admin/responsive.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_triple/flutter_triple.dart';
+import 'package:ship_dashboard/app/shared/constants.dart';
+import 'package:ship_dashboard/responsive.dart';
 
 import '../home_controller.dart';
 

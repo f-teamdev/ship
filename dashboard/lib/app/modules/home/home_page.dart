@@ -1,9 +1,9 @@
-import 'package:admin/app/modules/home/components/header.dart';
-import 'package:admin/app/modules/home/home_controller.dart';
-import 'package:admin/app/shared/constants.dart';
-import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:ship_dashboard/app/modules/home/components/header.dart';
+import 'package:ship_dashboard/app/modules/home/home_controller.dart';
+import 'package:ship_dashboard/app/shared/constants.dart';
+import 'package:ship_dashboard/responsive.dart';
 
 import 'components/side_menu.dart';
 

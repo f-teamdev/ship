@@ -1,5 +1,5 @@
-import 'package:admin/app/modules/dashboard/dashboard_page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:ship_dashboard/app/modules/dashboard/dashboard_page.dart';
 
 class DashboardModule extends Module {
   @override
