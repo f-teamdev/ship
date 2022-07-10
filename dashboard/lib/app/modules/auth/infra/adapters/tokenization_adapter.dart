@@ -5,17 +5,17 @@ class TokenizationAdapter {
 
   static Tokenization fromJson(dynamic json) {
     return Tokenization(
-      accessToken: json['accessToken'],
-      refreshToken: json['refreshToken'],
-      expiresIn: json['expiresIn'],
+      accessToken: json['access_token'],
+      refreshToken: json['refresh_token'],
+      expiresIn: json['expires_id'],
     );
   }
 
   static Map<String, dynamic> toJson(Tokenization tokenization) {
     return {
-      'accessToken': tokenization.accessToken,
-      'refreshToken': tokenization.refreshToken,
-      'expiresIn': tokenization.expiresIn,
+      'access_token': tokenization.accessToken,
+      'refresh_token': tokenization.refreshToken,
+      'expires_id': tokenization.expiresIn,
     };
   }
 }

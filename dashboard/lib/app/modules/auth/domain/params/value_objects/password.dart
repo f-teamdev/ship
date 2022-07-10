@@ -7,7 +7,7 @@ class Password {
 
   Either<String, Object?> validate([Object? object]) {
     if (_value.isEmpty) {
-      return Left('Campo email não pode ser vazio');
+      return Left('Campo senha não pode ser vazio');
     }
 
     return Right(object);

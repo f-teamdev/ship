@@ -18,6 +18,9 @@ class RemoteAuthDatasource implements AuthDatasource {
       });
       return response.data;
     } on NetworkException catch (e, s) {
+      if (e.data != null) {
+        throw AuthException(e.data['error'], s);
+      }
       throw AuthException(e.message, s);
     }
   }

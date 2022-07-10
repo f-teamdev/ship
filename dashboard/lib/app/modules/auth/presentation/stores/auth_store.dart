@@ -3,6 +3,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:ship_dashboard/app/modules/auth/domain/entities/tokenization.dart';
 import 'package:ship_dashboard/app/modules/auth/domain/params/login_credentials.dart';
 import 'package:ship_dashboard/app/modules/auth/domain/usecases/get_tokenization.dart';
+import 'package:ship_dashboard/app/modules/auth/domain/usecases/logout.dart';
 import 'package:ship_dashboard/app/modules/auth/domain/usecases/refresh_token.dart';
 import 'package:ship_dashboard/app/modules/auth/domain/usecases/save_tokenization.dart';
 import 'package:ship_dashboard/app/shared/adapters/either_adapter.dart';
@@ -16,16 +17,24 @@ class AuthStore extends StreamStore<AuthException, AuthState> {
   final Login _loginUsecase;
   final SaveTokenization _saveTokenUsecase;
   final GetTokenization _getTokenUsecase;
+  final Logout _logoutUsecase;
 
   AuthStore(
     this._refreshTokenUsecase,
     this._loginUsecase,
     this._saveTokenUsecase,
     this._getTokenUsecase,
+    this._logoutUsecase,
   ) : super(AuthInProgress());
 
   Future<void> checkAuth() async {
     await executeEither(() => CustomEitherAdapter.adapter(_getTokenUsecase().map(Logged.new)));
+    setLoading(false);
+  }
+
+  Future<void> logout() async {
+    final task = _logoutUsecase().map((r) => Unlogged());
+    await executeEither(() => CustomEitherAdapter.adapter(task));
     setLoading(false);
   }
 

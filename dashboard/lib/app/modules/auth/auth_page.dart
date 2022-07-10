@@ -32,7 +32,20 @@ class _AuthPageState extends State<AuthPage> {
       if (state is Logged) {
         Modular.to.navigate('/home/');
       }
+    }, onError: (error) {
+      _showError(error.message);
     });
+  }
+
+  _showError(String message) {
+    final snackBar = SnackBar(
+      content: Text(
+        message,
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.red,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -41,7 +54,11 @@ class _AuthPageState extends State<AuthPage> {
     super.dispose();
   }
 
-  _login() => credentials.validate().fold(id, store.login);
+  _login() {
+    credentials.validate().fold((error) {
+      _showError(error.message);
+    }, store.login);
+  }
 
   @override
   Widget build(BuildContext context) {

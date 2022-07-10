@@ -1,7 +1,7 @@
 import 'package:encrypt/encrypt.dart';
 
 class EncryptService {
-  final _key = Key.fromUtf8('PLQdvnFlpL2TAyLcZ2RuNldL9dg1Hs2mxlMJfYO6dN0=');
+  final _key = Key.fromUtf8('7x!A%D*G-KaPdSgV');
   final _iv = IV.fromLength(16);
 
   late final _encrypter = Encrypter(AES(_key));

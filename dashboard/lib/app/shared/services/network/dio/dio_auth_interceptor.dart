@@ -28,9 +28,9 @@ class DioAuthInterceptor extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
-    if (err.response?.statusCode == 403 && !err.requestOptions.headers.containsKey(REFRESHED_TOKEN)) {
-      final _authStore = _authStoreLazy();
+    final _authStore = _authStoreLazy();
 
+    if (err.response?.statusCode == 403 && !err.requestOptions.headers.containsKey(REFRESHED_TOKEN)) {
       await _authStore.refreshToken();
       if (_authStore.state is! Logged) {
         handler.next(err);
@@ -55,6 +55,8 @@ class DioAuthInterceptor extends Interceptor {
 
       handler.resolve(response);
       return;
+    } else if (err.requestOptions.headers.containsKey(REFRESHED_TOKEN)) {
+      _authStore.logout();
     }
 
     handler.next(err);

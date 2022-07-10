@@ -36,4 +36,10 @@ class SecureStorageRepositoryImpl implements SecureStorageRepository {
     await storage.put(_TOKENIZATION_KEY, encryptedText);
     return Right(unit);
   }
+
+  @override
+  Future<Either<SecureStorageException, Unit>> removeToken() async {
+    await storage.remove(_TOKENIZATION_KEY);
+    return Right(unit);
+  }
 }
