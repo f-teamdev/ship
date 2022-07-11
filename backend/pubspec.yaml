@@ -23,7 +23,7 @@ dependencies:
   mime: ^1.0.2
   http_parser: ^4.0.1
   dart_jsonwebtoken: ^2.4.1
-  shelf_swagger_ui: ^1.0.0+1
+  shelf_swagger_ui: ^1.0.0+2
 
 
 dev_dependencies:
