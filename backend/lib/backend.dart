@@ -24,9 +24,8 @@ shelf.Middleware jsonEncoder() {
   return (innerHanddler) {
     return (request) async {
       var response = await innerHanddler(request);
-      final isFile = request.url.pathSegments.contains('file') && request.method.toUpperCase() == 'GET';
-      final isDocumentation = request.url.pathSegments.contains('documentation');
-      if (!isFile && !isDocumentation) {
+
+      if (!response.headers.containsKey(HttpHeaders.contentTypeHeader)) {
         response = response.change(headers: {
           ...response.headers,
           HttpHeaders.contentTypeHeader: 'application/json',

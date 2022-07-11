@@ -23,7 +23,7 @@ class _AppWidgetState extends State<AppWidget> {
     disposer = authStore.observer(
       onState: (state) {
         if (state is Logged) {
-          Modular.to.navigate('/home/');
+          Modular.to.navigate('/home/dashboard');
         } else if (state is Unlogged) {
           Modular.to.navigate('/auth/');
         }
