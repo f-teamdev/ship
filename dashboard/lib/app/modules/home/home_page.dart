@@ -13,7 +13,9 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       key: Modular.get<HomeController>().scaffoldKey,
       drawer: SideMenu(),
-      body: SafeArea(
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

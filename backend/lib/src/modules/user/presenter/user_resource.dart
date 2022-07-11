@@ -105,7 +105,7 @@ class UserResource extends Resource {
     final clams = tokenResult.getOrElse((l) => throw l);
 
     final arguments = ModularArguments(uri: Uri.parse(''), params: {
-      'id': clams['id'],
+      'id': '${clams['id']}',
     });
 
     return _getUser(arguments, injector);

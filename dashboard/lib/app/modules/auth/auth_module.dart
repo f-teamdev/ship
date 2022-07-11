@@ -1,4 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:modular_triple_bind/modular_triple_bind.dart';
 import 'package:ship_dashboard/app/modules/auth/domain/usecases/get_tokenization.dart';
 import 'package:ship_dashboard/app/modules/auth/domain/usecases/login.dart';
 import 'package:ship_dashboard/app/modules/auth/domain/usecases/refresh_token.dart';
@@ -26,7 +27,7 @@ class AuthModule extends Module {
         // external
         Bind.factory((i) => RemoteAuthDatasource(i()), export: true),
         // presentation
-        Bind.singleton((i) => AuthStore(i(), i(), i(), i(), i()), export: true),
+        TripleBind.singleton((i) => AuthStore(i(), i(), i(), i(), i()), export: true),
       ];
 
   @override

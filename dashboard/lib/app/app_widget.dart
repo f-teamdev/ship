@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ship_dashboard/app/modules/user/presentation/stores/logged_user_store.dart';
 
 import 'modules/auth/presentation/states/auth_state.dart';
 import 'modules/auth/presentation/stores/auth_store.dart';
@@ -19,19 +20,21 @@ class _AppWidgetState extends State<AppWidget> {
   void initState() {
     super.initState();
     final authStore = Modular.get<AuthStore>();
+    final loggedUseStore = Modular.get<LoggedUserStore>();
 
     disposer = authStore.observer(
-      onState: (state) {
+      onState: (state) async {
         if (state is Logged) {
+          await loggedUseStore.getLoggedUser();
           Modular.to.navigate('/home/dashboard');
         } else if (state is Unlogged) {
+          loggedUseStore.removeUser();
           Modular.to.navigate('/auth/');
         }
       },
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(Duration(seconds: 2));
       await authStore.checkAuth();
     });
   }

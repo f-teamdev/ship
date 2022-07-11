@@ -40,6 +40,7 @@ dependencies:
   fpdart: ^0.1.0
   dio: ^4.0.6
   encrypt: ^5.0.1
+  modular_triple_bind: ^1.0.0
 
 dev_dependencies:
   flutter_test:

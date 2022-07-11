@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_triple/flutter_triple.dart';
+import 'package:ship_dashboard/app/modules/user/presentation/stores/logged_user_store.dart';
 import 'package:ship_dashboard/app/shared/constants.dart';
 import 'package:ship_dashboard/responsive.dart';
 
@@ -45,6 +46,8 @@ class ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final store = context.watch<LoggedUserStore>();
+    final user = store.state;
     return Container(
       margin: EdgeInsets.only(left: defaultPadding),
       padding: EdgeInsets.symmetric(
@@ -60,7 +63,7 @@ class ProfileCard extends StatelessWidget {
         children: [
           ClipOval(
             child: CachedNetworkImage(
-              imageUrl: "https://pbs.twimg.com/profile_images/1350144832350597124/pZ5ykSgo.jpg",
+              imageUrl: user.imageUrl ?? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
               placeholder: (context, url) => CircularProgressIndicator(),
               errorWidget: (context, url, error) => Icon(Icons.error),
               height: 38,
@@ -70,7 +73,7 @@ class ProfileCard extends StatelessWidget {
           if (!Responsive.isMobile(context))
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-              child: Text("Jacob Moura"),
+              child: Text(user.name),
             ),
           Icon(Icons.keyboard_arrow_down),
         ],

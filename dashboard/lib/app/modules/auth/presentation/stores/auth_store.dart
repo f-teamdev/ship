@@ -28,8 +28,11 @@ class AuthStore extends StreamStore<AuthException, AuthState> {
   ) : super(AuthInProgress());
 
   Future<void> checkAuth() async {
-    await executeEither(() => CustomEitherAdapter.adapter(_getTokenUsecase().map(Logged.new)));
-    setLoading(false);
+    final result = await _getTokenUsecase() //
+        .mapLeft((l) => Unlogged())
+        .map(Logged.new)
+        .run();
+    update(result.fold(id, id));
   }
 
   Future<void> logout() async {

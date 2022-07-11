@@ -1,13 +1,7 @@
-class AuthException implements Exception {
-  final String message;
-  final StackTrace? stackTrace;
+import 'package:ship_dashboard/app/shared/exceptions/exceptions.dart';
 
-  const AuthException(this.message, [this.stackTrace]);
-
-  @override
-  String toString() {
-    return '$runtimeType: $message\n${stackTrace != null ? stackTrace.toString() : ''}';
-  }
+class AuthException extends CustomException {
+  const AuthException(super.message, [super.stackTrace]);
 }
 
 class SecureStorageException extends AuthException {

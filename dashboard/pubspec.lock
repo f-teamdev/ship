@@ -352,6 +352,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
+  modular_triple_bind:
+    dependency: "direct main"
+    description:
+      name: modular_triple_bind
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   node_preamble:
     dependency: transitive
     description:
