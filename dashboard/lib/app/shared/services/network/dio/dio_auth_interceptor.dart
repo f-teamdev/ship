@@ -20,7 +20,7 @@ class DioAuthInterceptor extends Interceptor {
     final state = authStore.state;
     if (state is Logged) {
       final tokenization = state.tokenization;
-      options.headers['Authorization'] = 'bearer ${tokenization.accessToken}';
+      options.headers['authorization'] = 'bearer ${tokenization.accessToken}';
     }
 
     handler.next(options);

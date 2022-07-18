@@ -40,7 +40,7 @@ class UserResource extends Resource {
   }
 
   FutureOr<Response> _update(Request request, ModularArguments arguments, Injector injector) async {
-    final accessToken = request.headers['Authorization']!.split(' ').last;
+    final accessToken = request.headers['authorization']!.split(' ').last;
     final checkToken = injector.get<CheckToken>();
     final updateUser = injector.get<UpdateUser>();
     final data = arguments.data as Map;
@@ -99,7 +99,7 @@ class UserResource extends Resource {
   }
 
   FutureOr<Response> _getLoggedUser(Request request, Injector injector) async {
-    final accessToken = request.headers['Authorization']!.split(' ').last;
+    final accessToken = request.headers['authorization']!.split(' ').last;
     final checkToken = injector.get<CheckToken>();
     var tokenResult = await checkToken(accessToken: accessToken);
     final clams = tokenResult.getOrElse((l) => throw l);

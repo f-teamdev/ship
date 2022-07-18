@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:shelf/shelf.dart' as shelf;
+import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 import 'package:shelf_modular/shelf_modular.dart';
 
 import 'backend.dart';
@@ -14,6 +15,7 @@ Future<shelf.Handler> serverInicialization() async {
   return Modular(
     module: AppModule(dotEnv),
     middlewares: [
+      corsHeaders(),
       shelf.logRequests(),
       jsonEncoder(),
     ],

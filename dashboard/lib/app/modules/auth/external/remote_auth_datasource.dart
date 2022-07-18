@@ -13,7 +13,7 @@ class RemoteAuthDatasource implements AuthDatasource {
     try {
       final response = await network.get('/auth/login', headers: {
         NO_AUTHORIZATION: '',
-        'Authorization': 'basic $credentials',
+        'authorization': 'basic $credentials',
       });
       return response.data;
     } on NetworkException catch (e, s) {
@@ -29,7 +29,7 @@ class RemoteAuthDatasource implements AuthDatasource {
     try {
       final response = await network.get('/auth/refresh_token', headers: {
         NO_AUTHORIZATION: '',
-        'Authorization': 'bearer $token',
+        'authorization': 'bearer $token',
       });
       return response.data;
     } on NetworkException catch (e, s) {
@@ -42,7 +42,7 @@ class RemoteAuthDatasource implements AuthDatasource {
     try {
       final response = await network.get('/auth/check_token', headers: {
         NO_AUTHORIZATION: '',
-        'Authorization': 'bearer $accessToken',
+        'authorization': 'bearer $accessToken',
       });
       return response.data;
     } on NetworkException catch (e, s) {

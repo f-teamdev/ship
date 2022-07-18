@@ -8,7 +8,7 @@ import '../../domain/usecases/check_token.dart';
 // class AuthGuard extends RouteGuard {
 //   @override
 //   FutureOr<bool> canActivate(Request request, Route route) async {
-//     final accessToken = request.headers['Authorization']?.split(' ').last;
+//     final accessToken = request.headers['authorization']?.split(' ').last;
 //     if (accessToken == null || accessToken.isEmpty) {
 //       return false;
 //     }
@@ -25,7 +25,7 @@ class AuthGuard extends ModularMiddleware {
   @override
   Handler call(Handler handler, [ModularRoute? route]) {
     return (request) async {
-      final accessToken = request.headers['Authorization']?.split(' ').last;
+      final accessToken = request.headers['authorization']?.split(' ').last;
       if (accessToken == null || accessToken.isEmpty) {
         return Response.forbidden(jsonEncode({'error': 'Authorization header is Empty'}));
       }

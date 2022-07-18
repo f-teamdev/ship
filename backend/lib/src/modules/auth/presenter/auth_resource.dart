@@ -23,7 +23,7 @@ class AuthResource implements Resource {
       ];
 
   FutureOr<Response> login(Request request, Injector injector) async {
-    final credentials = request.headers['Authorization']?.split(' ').last;
+    final credentials = request.headers['authorization']?.split(' ').last;
 
     if (credentials == null || credentials.isEmpty) {
       return Response.forbidden(jsonEncode({'error': 'Authorization not found'}));
@@ -34,7 +34,7 @@ class AuthResource implements Resource {
   }
 
   FutureOr<Response> refreshToken(Request request, Injector injector) async {
-    final refreshToken = request.headers['Authorization']?.split(' ').last;
+    final refreshToken = request.headers['authorization']?.split(' ').last;
 
     if (refreshToken == null || refreshToken.isEmpty) {
       return Response.forbidden(jsonEncode({'error': 'RefreshToken not found'}));
@@ -44,7 +44,7 @@ class AuthResource implements Resource {
   }
 
   FutureOr<Response> _updatePassword(Request request, ModularArguments args, Injector injector) async {
-    final accessToken = request.headers['Authorization']!.split(' ').last;
+    final accessToken = request.headers['authorization']!.split(' ').last;
     final data = args.data as Map;
 
     final updatePassword = injector.get<UpdatePassword>();
