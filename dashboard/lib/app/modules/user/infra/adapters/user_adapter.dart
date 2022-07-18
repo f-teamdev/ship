@@ -1,4 +1,4 @@
-import 'package:ship_dashboard/app/modules/user/domain/entities/user.dart';
+import '../../domain/entities/user.dart';
 
 class UserAdapter {
   UserAdapter._();

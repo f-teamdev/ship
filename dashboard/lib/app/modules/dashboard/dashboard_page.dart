@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:ship_dashboard/app/shared/constants.dart';
-import 'package:ship_dashboard/app/shared/widgets/custom_title.dart';
-import 'package:ship_dashboard/responsive.dart';
 
+import '../../../responsive.dart';
+import '../../shared/constants.dart';
+import '../../shared/widgets/custom_title.dart';
 import 'components/my_files.dart';
 import 'components/recent_files.dart';
 import 'components/storage_details.dart';
 
 class DashboardPage extends StatelessWidget {
+  const DashboardPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return CustomTitle(
       title: 'Dashboard',
       child: SingleChildScrollView(
-        padding: EdgeInsets.all(defaultPadding),
+        padding: const EdgeInsets.all(defaultPadding),
         child: Column(
           children: [
             Row(
@@ -23,18 +25,18 @@ class DashboardPage extends StatelessWidget {
                   flex: 5,
                   child: Column(
                     children: [
-                      MyFiles(),
-                      SizedBox(height: defaultPadding),
-                      RecentFiles(),
-                      if (Responsive.isMobile(context)) SizedBox(height: defaultPadding),
-                      if (Responsive.isMobile(context)) StarageDetails(),
+                      const MyFiles(),
+                      const SizedBox(height: defaultPadding),
+                      const RecentFiles(),
+                      if (Responsive.isMobile(context)) const SizedBox(height: defaultPadding),
+                      if (Responsive.isMobile(context)) const StarageDetails(),
                     ],
                   ),
                 ),
-                if (!Responsive.isMobile(context)) SizedBox(width: defaultPadding),
+                if (!Responsive.isMobile(context)) const SizedBox(width: defaultPadding),
                 // On Mobile means if the screen is less than 850 we dont want to show it
                 if (!Responsive.isMobile(context))
-                  Expanded(
+                  const Expanded(
                     flex: 2,
                     child: StarageDetails(),
                   ),

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:ship_dashboard/app/modules/auth/presentation/states/auth_state.dart';
 
+import '../../../../modules/auth/presentation/states/auth_state.dart';
 import '../../../../modules/auth/presentation/stores/auth_store.dart';
 import '../../../constants/constants.dart';
 
@@ -16,8 +16,8 @@ class DioAuthInterceptor extends Interceptor {
       handler.next(options);
       return;
     }
-    final _authStore = _authStoreLazy();
-    final state = _authStore.state;
+    final authStore = _authStoreLazy();
+    final state = authStore.state;
     if (state is Logged) {
       final tokenization = state.tokenization;
       options.headers['Authorization'] = 'bearer ${tokenization.accessToken}';
@@ -28,11 +28,11 @@ class DioAuthInterceptor extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
-    final _authStore = _authStoreLazy();
+    final authStore = _authStoreLazy();
 
     if (err.response?.statusCode == 403 && !err.requestOptions.headers.containsKey(REFRESHED_TOKEN)) {
-      await _authStore.refreshToken();
-      if (_authStore.state is! Logged) {
+      await authStore.refreshToken();
+      if (authStore.state is! Logged) {
         handler.next(err);
         return;
       }
@@ -56,7 +56,7 @@ class DioAuthInterceptor extends Interceptor {
       handler.resolve(response);
       return;
     } else if (err.requestOptions.headers.containsKey(REFRESHED_TOKEN)) {
-      _authStore.logout();
+      authStore.logout();
     }
 
     handler.next(err);

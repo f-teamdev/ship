@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:ship_dashboard/app/modules/home/components/header.dart';
-import 'package:ship_dashboard/app/modules/home/home_controller.dart';
-import 'package:ship_dashboard/app/shared/constants.dart';
-import 'package:ship_dashboard/responsive.dart';
 
+import '../../../responsive.dart';
+import '../../shared/constants.dart';
+import 'components/header.dart';
 import 'components/side_menu.dart';
+import 'home_controller.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: Modular.get<HomeController>().scaffoldKey,
-      drawer: SideMenu(),
+      drawer: const SideMenu(),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
@@ -20,13 +22,13 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (Responsive.isDesktop(context))
-              Expanded(
+              const Expanded(
                 child: SideMenu(),
               ),
             Expanded(
               flex: 5,
               child: Column(
-                children: [
+                children: const [
                   Padding(padding: EdgeInsets.all(defaultPadding), child: Header()),
                   Expanded(child: ClipRRect(child: RouterOutlet())),
                 ],

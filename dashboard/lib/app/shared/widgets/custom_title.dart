@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:ship_dashboard/app/modules/home/home_controller.dart';
 
+import '../../modules/home/home_controller.dart';
 import '../constants.dart';
 
 class CustomTitle extends StatefulWidget {

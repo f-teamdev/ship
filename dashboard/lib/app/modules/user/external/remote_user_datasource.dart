@@ -1,8 +1,7 @@
-import 'package:ship_dashboard/app/modules/user/infra/datasources/user_datasource.dart';
-import 'package:ship_dashboard/app/shared/services/network/network_service.dart';
-
 import '../../../shared/services/network/network_exception.dart';
+import '../../../shared/services/network/network_service.dart';
 import '../domain/exceptions/exceptions.dart';
+import '../infra/datasources/user_datasource.dart';
 
 class RemoteUserDatasource implements UserDatasource {
   final NetworkService network;

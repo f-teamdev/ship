@@ -1,14 +1,13 @@
 import 'dart:convert';
 
-import 'package:fpdart/src/either.dart';
-import 'package:fpdart/src/unit.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/entities/tokenization.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/exceptions/exceptions.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/repositories/secure_storage_repository.dart';
-import 'package:ship_dashboard/app/modules/auth/infra/adapters/tokenization_adapter.dart';
-import 'package:ship_dashboard/app/shared/services/local_storage/local_storage_service.dart';
+import 'package:fpdart/fpdart.dart';
 
 import '../../../../shared/services/encrypt/encrypt_service.dart';
+import '../../../../shared/services/local_storage/local_storage_service.dart';
+import '../../domain/entities/tokenization.dart';
+import '../../domain/exceptions/exceptions.dart';
+import '../../domain/repositories/secure_storage_repository.dart';
+import '../adapters/tokenization_adapter.dart';
 
 const _TOKENIZATION_KEY = '_TOKENIZATION_KEY';
 
@@ -34,12 +33,12 @@ class SecureStorageRepositoryImpl implements SecureStorageRepository {
     final mapToken = TokenizationAdapter.toJson(tokenization);
     final encryptedText = _encryptService.encrypt(jsonEncode(mapToken));
     await storage.put(_TOKENIZATION_KEY, encryptedText);
-    return Right(unit);
+    return const Right(unit);
   }
 
   @override
   Future<Either<SecureStorageException, Unit>> removeToken() async {
     await storage.remove(_TOKENIZATION_KEY);
-    return Right(unit);
+    return const Right(unit);
   }
 }

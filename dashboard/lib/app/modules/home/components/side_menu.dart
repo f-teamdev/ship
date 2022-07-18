@@ -20,14 +20,14 @@ class SideMenu extends StatelessWidget {
             title: "Dashboard",
             svgSrc: "assets/icons/menu_dashbord.svg",
             press: () {
-              Modular.to.navigate(parentPath + 'dashboard/');
+              Modular.to.navigate('${parentPath}dashboard/');
             },
           ),
           DrawerListTile(
             title: "Transações",
             svgSrc: "assets/icons/menu_tran.svg",
             press: () {
-              Modular.to.navigate(parentPath + 'transaction/');
+              Modular.to.navigate('${parentPath}transaction/');
             },
           ),
           DrawerListTile(
@@ -90,7 +90,7 @@ class DrawerListTile extends StatelessWidget {
       ),
       title: Text(
         title,
-        style: TextStyle(color: Colors.white54),
+        style: const TextStyle(color: Colors.white54),
       ),
     );
   }

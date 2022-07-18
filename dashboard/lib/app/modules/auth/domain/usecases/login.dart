@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:fpdart/fpdart.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/entities/tokenization.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/exceptions/exceptions.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/repositories/auth_repository.dart';
 
+import '../entities/tokenization.dart';
+import '../exceptions/exceptions.dart';
 import '../params/login_credentials.dart';
+import '../repositories/auth_repository.dart';
 
 abstract class Login {
   TaskEither<AuthException, Tokenization> call(LoginCredentials credentials);

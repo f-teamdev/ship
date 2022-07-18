@@ -1,7 +1,7 @@
-import 'package:backend/src/modules/user/domain/entities/user_entity.dart';
+import 'package:backend/src/modules/project/domain/entities/project_entity.dart';
 import 'package:backend/src/modules/user/domain/repositories/user_repository.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:modular_core/modular_core.dart';
+import 'package:shelf_modular/shelf_modular.dart';
 import 'package:shelf_modular/src/domain/services/bind_service.dart';
 import 'package:shelf_modular/src/domain/services/module_service.dart';
 import 'package:shelf_modular/src/domain/services/route_service.dart';

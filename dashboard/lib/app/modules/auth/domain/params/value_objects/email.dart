@@ -8,11 +8,11 @@ class Email {
 
   Either<String, Object?> validate([Object? object]) {
     if (_value.isEmpty) {
-      return Left('Campo email não pode ser vazio');
+      return const Left('Campo email não pode ser vazio');
     }
 
     if (!validator.isEmail(_value)) {
-      return Left('Isso não é um email');
+      return const Left('Isso não é um email');
     }
     return Right(object);
   }

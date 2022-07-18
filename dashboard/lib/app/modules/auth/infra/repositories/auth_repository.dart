@@ -1,8 +1,8 @@
-import 'package:fpdart/src/either.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/entities/tokenization.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/exceptions/exceptions.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/repositories/auth_repository.dart';
+import 'package:fpdart/fpdart.dart';
 
+import '../../domain/entities/tokenization.dart';
+import '../../domain/exceptions/exceptions.dart';
+import '../../domain/repositories/auth_repository.dart';
 import '../adapters/tokenization_adapter.dart';
 import '../datasources/auth_datasource.dart';
 
@@ -26,6 +26,16 @@ class AuthRepositoryImpl extends AuthRepository {
     try {
       final map = await datasource.refreshToken(refreshToken);
       return Right(TokenizationAdapter.fromJson(map));
+    } on AuthException catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  Future<Either<AuthException, Unit>> checkToken(String accessToken) async {
+    try {
+      await datasource.checkToken(accessToken);
+      return const Right(unit);
     } on AuthException catch (e) {
       return Left(e);
     }

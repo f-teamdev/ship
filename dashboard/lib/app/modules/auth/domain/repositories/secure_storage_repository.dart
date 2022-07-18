@@ -1,6 +1,6 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/entities/tokenization.dart';
 
+import '../entities/tokenization.dart';
 import '../exceptions/exceptions.dart';
 
 abstract class SecureStorageRepository {

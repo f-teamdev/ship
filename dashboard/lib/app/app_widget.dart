@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ship_dashboard/app/modules/user/presentation/stores/logged_user_store.dart';
 
 import 'modules/auth/presentation/states/auth_state.dart';
 import 'modules/auth/presentation/stores/auth_store.dart';
+import 'modules/user/presentation/stores/logged_user_store.dart';
 import 'shared/constants.dart';
 
 class AppWidget extends StatefulWidget {
+  const AppWidget({Key? key}) : super(key: key);
+
   @override
   State<AppWidget> createState() => _AppWidgetState();
 }
@@ -26,7 +28,7 @@ class _AppWidgetState extends State<AppWidget> {
       onState: (state) async {
         if (state is Logged) {
           await loggedUseStore.getLoggedUser();
-          Modular.to.navigate('/home/dashboard');
+          Modular.to.navigate('/home/dashboard/');
         } else if (state is Unlogged) {
           loggedUseStore.removeUser();
           Modular.to.navigate('/auth/');

@@ -9,5 +9,5 @@ void main() {
   setTripleResolver(<T extends Object>() {
     return Modular.get<T>();
   });
-  runApp(ModularApp(module: AppModule(), child: AppWidget()));
+  runApp(ModularApp(module: AppModule(), child: const AppWidget()));
 }

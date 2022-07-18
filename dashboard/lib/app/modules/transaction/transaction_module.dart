@@ -5,6 +5,6 @@ import 'transaction_page.dart';
 class TransactionModule extends Module {
   @override
   List<ModularRoute> get routes => [
-        ChildRoute('/', child: (_, __) => TransactionPage()),
+        ChildRoute('/', child: (_, __) => const TransactionPage()),
       ];
 }

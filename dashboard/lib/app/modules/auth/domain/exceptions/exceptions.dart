@@ -1,7 +1,9 @@
-import 'package:ship_dashboard/app/shared/exceptions/exceptions.dart';
+import '../../../../shared/exceptions/exceptions.dart';
+import '../../../../shared/services/network/network_exception.dart';
 
 class AuthException extends CustomException {
-  const AuthException(super.message, [super.stackTrace]);
+  final NetworkException? networkException;
+  const AuthException(super.message, [super.stackTrace, this.networkException]);
 }
 
 class SecureStorageException extends AuthException {

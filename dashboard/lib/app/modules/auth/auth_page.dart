@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:fpdart/fpdart.dart' hide State;
-import 'package:ship_dashboard/app/modules/auth/domain/params/login_credentials.dart';
-import 'package:ship_dashboard/app/modules/auth/presentation/states/auth_state.dart';
-import 'package:ship_dashboard/app/modules/auth/presentation/stores/auth_store.dart';
-import 'package:ship_dashboard/app/shared/constants.dart';
 
+import '../../shared/constants.dart';
 import 'domain/exceptions/exceptions.dart';
+import 'domain/params/login_credentials.dart';
+import 'presentation/states/auth_state.dart';
+import 'presentation/stores/auth_store.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -28,11 +28,7 @@ class _AuthPageState extends State<AuthPage> {
   void initState() {
     super.initState();
 
-    _observerDispose = store.observer(onState: (state) {
-      if (state is Logged) {
-        Modular.to.navigate('/home/');
-      }
-    }, onError: (error) {
+    _observerDispose = store.observer(onError: (error) {
       _showError(error.message);
     });
   }
@@ -41,7 +37,7 @@ class _AuthPageState extends State<AuthPage> {
     final snackBar = SnackBar(
       content: Text(
         message,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       backgroundColor: Colors.red,
     );
@@ -65,7 +61,7 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
       body: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(
+          constraints: const BoxConstraints(
             maxHeight: 400,
             maxWidth: 450,
           ),
@@ -78,27 +74,27 @@ class _AuthPageState extends State<AuthPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       width: 50,
                       child: Image.asset("assets/images/logo.jpg"),
                     ),
-                    SizedBox(height: 55),
+                    const SizedBox(height: 55),
                     TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       onChanged: credentials.setEmail,
                       validator: (text) => credentials.email.validate().fold(id, (r) => null),
                       keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Email",
                         fillColor: secondaryColor,
                         filled: true,
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
-                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                       ),
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     TextFormField(
                       obscureText: _isObscuredText,
                       onChanged: credentials.setPassword,
@@ -108,9 +104,9 @@ class _AuthPageState extends State<AuthPage> {
                         hintText: "Senha",
                         fillColor: secondaryColor,
                         filled: true,
-                        border: OutlineInputBorder(
+                        border: const OutlineInputBorder(
                           borderSide: BorderSide.none,
-                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         suffixIcon: IconButton(
                           onPressed: () {
@@ -122,14 +118,14 @@ class _AuthPageState extends State<AuthPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 50),
+                    const SizedBox(height: 50),
                     TripleBuilder<AuthStore, AuthException, AuthState>(
                       builder: (context, triple) {
                         return ElevatedButton(
-                          style: ButtonStyle(),
+                          style: const ButtonStyle(),
                           onPressed: triple.isLoading ? null : _login,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
                             child: Text('ENTRAR'),
                           ),
                         );

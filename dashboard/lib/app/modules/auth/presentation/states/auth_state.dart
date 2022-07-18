@@ -1,8 +1,10 @@
-import 'package:ship_dashboard/app/modules/auth/domain/entities/tokenization.dart';
+import '../../domain/entities/tokenization.dart';
 
 abstract class AuthState {}
 
 class Unlogged implements AuthState {}
+
+class OfflineAuth implements AuthState {}
 
 class AuthInProgress implements AuthState {}
 

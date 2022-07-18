@@ -1,9 +1,9 @@
-import 'package:fpdart/src/either.dart';
-import 'package:ship_dashboard/app/modules/user/domain/entities/user.dart';
-import 'package:ship_dashboard/app/modules/user/domain/exceptions/exceptions.dart';
-import 'package:ship_dashboard/app/modules/user/domain/repositories/user_repository.dart';
-import 'package:ship_dashboard/app/modules/user/infra/adapters/user_adapter.dart';
+import 'package:fpdart/fpdart.dart';
 
+import '../../domain/entities/user.dart';
+import '../../domain/exceptions/exceptions.dart';
+import '../../domain/repositories/user_repository.dart';
+import '../adapters/user_adapter.dart';
 import '../datasources/user_datasource.dart';
 
 class UserRepositoryImpl implements UserRepository {

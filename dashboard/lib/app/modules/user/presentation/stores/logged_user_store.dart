@@ -1,8 +1,9 @@
 import 'package:flutter_triple/flutter_triple.dart';
-import 'package:ship_dashboard/app/modules/user/domain/entities/user.dart';
-import 'package:ship_dashboard/app/modules/user/domain/exceptions/exceptions.dart';
-import 'package:ship_dashboard/app/modules/user/domain/usecases/logged_user.dart';
-import 'package:ship_dashboard/app/shared/adapters/either_adapter.dart';
+
+import '../../../../shared/adapters/either_adapter.dart';
+import '../../domain/entities/user.dart';
+import '../../domain/exceptions/exceptions.dart';
+import '../../domain/usecases/logged_user.dart';
 
 class LoggedUserStore extends StreamStore<UserException, User> {
   final LoggedUser loggedUserUsecase;

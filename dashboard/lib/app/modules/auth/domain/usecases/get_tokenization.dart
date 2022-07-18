@@ -1,10 +1,11 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/entities/tokenization.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/exceptions/exceptions.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/repositories/secure_storage_repository.dart';
+
+import '../entities/tokenization.dart';
+import '../exceptions/exceptions.dart';
+import '../repositories/secure_storage_repository.dart';
 
 abstract class GetTokenization {
-  TaskEither<SecureStorageException, Tokenization> call();
+  TaskEither<AuthException, Tokenization> call();
 }
 
 class GetTokenizationImpl implements GetTokenization {
@@ -13,7 +14,7 @@ class GetTokenizationImpl implements GetTokenization {
   GetTokenizationImpl(this.repository);
 
   @override
-  TaskEither<SecureStorageException, Tokenization> call() {
+  TaskEither<AuthException, Tokenization> call() {
     return TaskEither(() => repository.getToken());
   }
 }

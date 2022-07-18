@@ -1,9 +1,8 @@
-import 'package:ship_dashboard/app/modules/auth/domain/exceptions/exceptions.dart';
-import 'package:ship_dashboard/app/modules/auth/infra/datasources/auth_datasource.dart';
-import 'package:ship_dashboard/app/shared/constants/constants.dart';
-
+import '../../../shared/constants/constants.dart';
 import '../../../shared/services/network/network_exception.dart';
 import '../../../shared/services/network/network_service.dart';
+import '../domain/exceptions/exceptions.dart';
+import '../infra/datasources/auth_datasource.dart';
 
 class RemoteAuthDatasource implements AuthDatasource {
   final NetworkService network;
@@ -19,7 +18,7 @@ class RemoteAuthDatasource implements AuthDatasource {
       return response.data;
     } on NetworkException catch (e, s) {
       if (e.data != null) {
-        throw AuthException(e.data['error'], s);
+        throw AuthException(e.data['error'], s, e);
       }
       throw AuthException(e.message, s);
     }
@@ -34,7 +33,20 @@ class RemoteAuthDatasource implements AuthDatasource {
       });
       return response.data;
     } on NetworkException catch (e, s) {
-      throw AuthException(e.message, s);
+      throw AuthException(e.message, s, e);
+    }
+  }
+
+  @override
+  Future checkToken(String accessToken) async {
+    try {
+      final response = await network.get('/auth/check_token', headers: {
+        NO_AUTHORIZATION: '',
+        'Authorization': 'bearer $accessToken',
+      });
+      return response.data;
+    } on NetworkException catch (e, s) {
+      throw AuthException(e.message, s, e);
     }
   }
 }

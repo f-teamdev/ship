@@ -1,15 +1,16 @@
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/entities/tokenization.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/params/login_credentials.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/usecases/get_tokenization.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/usecases/logout.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/usecases/refresh_token.dart';
-import 'package:ship_dashboard/app/modules/auth/domain/usecases/save_tokenization.dart';
-import 'package:ship_dashboard/app/shared/adapters/either_adapter.dart';
 
+import '../../../../shared/adapters/either_adapter.dart';
+import '../../domain/entities/tokenization.dart';
 import '../../domain/exceptions/exceptions.dart';
+import '../../domain/params/login_credentials.dart';
+import '../../domain/usecases/check_token.dart';
+import '../../domain/usecases/get_tokenization.dart';
 import '../../domain/usecases/login.dart';
+import '../../domain/usecases/logout.dart';
+import '../../domain/usecases/refresh_token.dart';
+import '../../domain/usecases/save_tokenization.dart';
 import '../states/auth_state.dart';
 
 class AuthStore extends StreamStore<AuthException, AuthState> {
@@ -18,6 +19,7 @@ class AuthStore extends StreamStore<AuthException, AuthState> {
   final SaveTokenization _saveTokenUsecase;
   final GetTokenization _getTokenUsecase;
   final Logout _logoutUsecase;
+  final CheckToken _checkToken;
 
   AuthStore(
     this._refreshTokenUsecase,
@@ -25,14 +27,27 @@ class AuthStore extends StreamStore<AuthException, AuthState> {
     this._saveTokenUsecase,
     this._getTokenUsecase,
     this._logoutUsecase,
+    this._checkToken,
   ) : super(AuthInProgress());
 
   Future<void> checkAuth() async {
-    final result = await _getTokenUsecase() //
-        .mapLeft((l) => Unlogged())
+    final result = await _getTokenUsecase //
+        .call()
+        .flatMap(_refreshTokenUsecase.call)
+        .flatMap(_checkToken.call)
         .map(Logged.new)
+        .mapLeft(_offlineStateFilter)
         .run();
-    update(result.fold(id, id));
+    final newState = result.fold(id, id);
+    update(newState);
+  }
+
+  AuthState _offlineStateFilter(AuthException exception) {
+    if (exception.networkException?.statusCode == 404) {
+      return OfflineAuth();
+    }
+
+    return Unlogged();
   }
 
   Future<void> logout() async {
@@ -62,7 +77,7 @@ class AuthStore extends StreamStore<AuthException, AuthState> {
     if (state is! Logged) {
       return;
     } else {
-      final token = state.tokenization.refreshToken;
+      final token = state.tokenization;
       await executeEither(
         () {
           final either = _refreshTokenUsecase(token) //
