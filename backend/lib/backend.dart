@@ -11,8 +11,20 @@ export 'src/core/services/dotenv_service.dart';
 
 Future<shelf.Handler> serverInicialization() async {
   final dotEnv = await DotEnvService.instance();
+  const defaultHeadersList = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'user-agent',
+    'no_authorization',
+    'refreshed_token',
+  ];
   final overrideHeaders = {
-    ACCESS_CONTROL_ALLOW_ORIGIN: '*',
+    ACCESS_CONTROL_ALLOW_HEADERS: defaultHeadersList.join(','),
   };
 
   return Modular(

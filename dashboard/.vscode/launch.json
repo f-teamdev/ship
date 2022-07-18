@@ -14,12 +14,12 @@
             ]
         },
         {
-            "name": "dashboard (prod)",
+            "name": "dashboard (local)",
             "request": "launch",
             "type": "dart",
             "toolArgs": [
                 "--dart-define",
-                "URL_BASE=https://prod.shipstore.info"
+                "URL_BASE=http://localhost:4000"
             ]
         }
     ]
