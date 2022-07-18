@@ -11,11 +11,14 @@ export 'src/core/services/dotenv_service.dart';
 
 Future<shelf.Handler> serverInicialization() async {
   final dotEnv = await DotEnvService.instance();
+  final overrideHeaders = {
+    ACCESS_CONTROL_ALLOW_ORIGIN: '*',
+  };
 
   return Modular(
     module: AppModule(dotEnv),
     middlewares: [
-      corsHeaders(),
+      corsHeaders(headers: overrideHeaders),
       shelf.logRequests(),
       jsonEncoder(),
     ],
