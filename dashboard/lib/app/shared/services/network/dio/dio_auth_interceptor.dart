@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../../modules/auth/presentation/states/auth_state.dart';
 import '../../../../modules/auth/presentation/stores/auth_store.dart';
 import '../../../constants/constants.dart';
 
 class DioAuthInterceptor extends Interceptor {
-  final AuthStore Function() _authStoreLazy;
   final Dio _dio;
 
-  DioAuthInterceptor(this._authStoreLazy, this._dio);
+  DioAuthInterceptor(this._dio);
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
@@ -16,7 +16,7 @@ class DioAuthInterceptor extends Interceptor {
       handler.next(options);
       return;
     }
-    final authStore = _authStoreLazy();
+    final authStore = Modular.get<AuthStore>();
     final state = authStore.state;
     if (state is Logged) {
       final tokenization = state.tokenization;
@@ -28,7 +28,7 @@ class DioAuthInterceptor extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
-    final authStore = _authStoreLazy();
+    final authStore = Modular.get<AuthStore>();
 
     if (err.response?.statusCode == 403 && !err.requestOptions.headers.containsKey(REFRESHED_TOKEN)) {
       await authStore.refreshToken();
@@ -39,22 +39,26 @@ class DioAuthInterceptor extends Interceptor {
 
       err.requestOptions.headers[REFRESHED_TOKEN] = '';
 
-      final response = await _dio.request(
-        err.requestOptions.path,
-        cancelToken: err.requestOptions.cancelToken,
-        data: err.requestOptions.data,
-        onReceiveProgress: err.requestOptions.onReceiveProgress,
-        onSendProgress: err.requestOptions.onSendProgress,
-        queryParameters: err.requestOptions.queryParameters,
-        options: Options(
-          method: err.requestOptions.method,
-          contentType: err.requestOptions.contentType,
-          headers: err.requestOptions.headers,
-        ),
-      );
+      try {
+        final response = await _dio.request(
+          err.requestOptions.path,
+          cancelToken: err.requestOptions.cancelToken,
+          data: err.requestOptions.data,
+          onReceiveProgress: err.requestOptions.onReceiveProgress,
+          onSendProgress: err.requestOptions.onSendProgress,
+          queryParameters: err.requestOptions.queryParameters,
+          options: Options(
+            method: err.requestOptions.method,
+            contentType: err.requestOptions.contentType,
+            headers: err.requestOptions.headers,
+          ),
+        );
 
-      handler.resolve(response);
-      return;
+        handler.resolve(response);
+        return;
+      } on DioError catch (e) {
+        handler.next(e);
+      }
     } else if (err.requestOptions.headers.containsKey(REFRESHED_TOKEN)) {
       authStore.logout();
     }

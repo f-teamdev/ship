@@ -345,6 +345,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  mime_type:
+    dependency: transitive
+    description:
+      name: mime_type
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   mocktail:
     dependency: "direct dev"
     description:
@@ -735,6 +742,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.1"
+  universal_io:
+    dependency: transitive
+    description:
+      name: universal_io
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.4"
+  uno:
+    dependency: "direct main"
+    description:
+      name: uno
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1+3"
   uuid:
     dependency: transitive
     description:
