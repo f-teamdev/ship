@@ -35,6 +35,7 @@ class AuthStore extends StreamStore<AuthException, AuthState> {
         .call()
         .flatMap(_refreshTokenUsecase.call)
         .flatMap(_checkToken.call)
+        .flatMap(saveToken)
         .map(Logged.new)
         .mapLeft(_offlineStateFilter)
         .run();

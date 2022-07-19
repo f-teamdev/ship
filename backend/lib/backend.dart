@@ -19,7 +19,6 @@ Future<shelf.Handler> serverInicialization() async {
     'dnt',
     'origin',
     'user-agent',
-    'user-agent',
     'no_authorization',
     'refreshed_token',
   ];
